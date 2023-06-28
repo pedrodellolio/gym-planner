@@ -13,16 +13,17 @@ import {
 } from "native-base";
 import { Link } from "expo-router";
 
-export default function SignIn() {
-  const { signIn } = useAuth();
+export default function SignUp() {
+  const { signUp } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSignIn = () => {
+  const handleSignUp = () => {
     setIsLoading(true);
-    signIn(email, password);
+    signUp(email, password, name);
     setIsLoading(false);
   };
 
@@ -48,10 +49,14 @@ export default function SignIn() {
           fontWeight="medium"
           size="xs"
         >
-          Sign in to continue!
+          Sign up to continue!
         </Heading>
 
         <VStack space={3} mt="5">
+          {/* <FormControl>
+            <FormControl.Label>Name</FormControl.Label>
+            <Input type="text" onChangeText={setName} />
+          </FormControl> */}
           <FormControl>
             <FormControl.Label>Email</FormControl.Label>
             <Input type="text" onChangeText={setEmail} />
@@ -59,19 +64,18 @@ export default function SignIn() {
           <FormControl>
             <FormControl.Label>Password</FormControl.Label>
             <Input type="password" onChangeText={setPassword} />
-            {/* <Link href="">Forget Password?</Link> */}
           </FormControl>
           <Button
             mt="2"
             colorScheme="indigo"
             disabled={isLoading}
-            onPress={handleSignIn}
+            onPress={handleSignUp}
           >
-            Sign in
+            Sign up
           </Button>
           <HStack mt="6" justifyContent="center">
-            <Text>I'm a new user. </Text>
-            <Link href="/signUp">Sign Up</Link>
+            <Text>Already have an account? </Text>
+            <Link href="/signIn">Sign In</Link>
           </HStack>
         </VStack>
       </Box>

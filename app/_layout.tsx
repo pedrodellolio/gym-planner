@@ -9,6 +9,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { Provider } from "../context/auth";
+import { NativeBaseProvider } from "native-base";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -45,17 +46,19 @@ function RootLayoutNav() {
 
   return (
     <>
-      <ThemeProvider
+      {/* <ThemeProvider
         value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         children={""}
-      >
-        <Provider children={""}>
+      > */}
+      <NativeBaseProvider>
+        <Provider>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: "modal" }} />
           </Stack>
         </Provider>
-      </ThemeProvider>
+      </NativeBaseProvider>
+      {/* </ThemeProvider> */}
     </>
   );
 }

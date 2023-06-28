@@ -1,11 +1,19 @@
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import { useNavigation, useRouter, useSegments } from "expo-router";
+import {
+  useNavigation,
+  useRootNavigationState,
+  useRouter,
+  useSegments,
+} from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
+import auth from "@react-native-firebase/auth";
 
 interface AuthContextData {
   user: FirebaseAuthTypes.User | null;
+  isLoading: boolean;
+  signIn(email: string, password: string): void;
+  signUp(email: string, password: string, name?: string): void;
   signOut(): void;
-  signIn(): void;
 }
 
 interface Props {
@@ -22,52 +30,76 @@ export function useAuth() {
 function useProtectedRoute(user: FirebaseAuthTypes.User | null) {
   const segments = useSegments();
   const router = useRouter();
-  const nav = useNavigation();
+  const navigationState = useRootNavigationState();
 
   useEffect(() => {
-    console.log(user);
+    if (!navigationState?.key) return;
     const inAuthGroup = segments[0] === "(auth)";
 
-    // if (user === undefined) return;
-
     if (!user && !inAuthGroup) {
-      console.log("1");
       // Redirect to the sign-in page.
       router.replace("/signIn");
     } else if (user && inAuthGroup) {
-      console.log("2");
       // Redirect away from the sign-in page.
       router.replace("/");
     }
-  }, [user, segments]);
+  }, [user, segments, navigationState?.key]);
 }
 
 export function Provider({ children }: Props) {
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(
-    {} as FirebaseAuthTypes.User
-  );
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useProtectedRoute(user);
 
-  function signOut() {
-    console.log("logging out");
-    setUser(null);
+  function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
+    console.log(user);
+    setUser(user);
+    if (isLoading) setIsLoading(false);
   }
 
-  function signIn() {
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  function signIn(email: string, password: string) {
     console.log("logging in");
-    setUser({} as FirebaseAuthTypes.User);
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((credentials) => {
+        console.log(`User logged in!`);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function signUp(email: string, password: string, name?: string) {
+    console.log("creating account");
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((credentials) => {
+        console.log(`${credentials.user.email.split("@")[0]} created!`);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function signOut() {
+    auth()
+      .signOut()
+      .then(() => console.log("logged out!"));
   }
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        signOut,
+        isLoading,
         signIn,
+        signUp,
+        signOut,
       }}
     >
-      {children}
+      {isLoading ? null : children}
     </AuthContext.Provider>
   );
 }
