@@ -1,23 +1,21 @@
-import { Button, Pressable, StyleSheet } from "react-native";
-
-import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
+import EditScreenInfo from "../../components/EditScreenInfo";
+import { Button, StyleSheet } from "react-native";
 import { useAuth } from "../../context/auth";
-import { Link } from "expo-router";
 
-export default function TabOneScreen() {
-  const { signOut } = useAuth();
+export default function SignIn() {
+  const { signIn } = useAuth();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
+      <Text style={styles.title}>Sign In</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
       <EditScreenInfo path="app/(tabs)/index.tsx" />
-      <Button title="Sign Out" onPress={signOut}></Button>
+      <Button title="Sign In" onPress={signIn}></Button>
     </View>
   );
 }
