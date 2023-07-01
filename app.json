@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "gym-planner-app",
-    "slug": "gym-planner-app",
+    "slug": "amplify-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -29,6 +29,12 @@
     "web": {
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "69d4d63f-9ced-4302-b34f-f0bcd83db4a6"
+      }
+    },
+    "owner": "pedrodellolio"
   }
 }

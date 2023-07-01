@@ -1,55 +1,77 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import { Link, Tabs, useRouter } from "expo-router";
+import AppBar from "../../components/AppBar";
+import Colors from "../../constants/Colors";
+import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons/";
+import { IconButton } from "native-base";
+import { useAuth } from "../../context/auth";
 
-import Colors from '../../constants/Colors';
+export default function TabsLayout() {
+  const { signOut } = useAuth();
+  const router = useRouter();
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const openModal = () => {
+    router.push("createPlaylistModal");
+  };
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
+        tabBarStyle: {
+          backgroundColor: Colors["primary"].background,
+        },
+        tabBarShowLabel: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: "Activity",
+          headerTitleAlign: "center",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="home"
+              color={focused ? "#fff" : "#828282"}
+              size={20}
+            />
+          ),
+          header: ({ options }) => (
+            <AppBar
+              title={options.title}
+              left={
+                <IconButton
+                  onPress={signOut}
+                  icon={<FontAwesome name="sign-out" size={30} />}
+                ></IconButton>
+              }
+            />
           ),
         }}
-      />
+      ></Tabs.Screen>
       <Tabs.Screen
-        name="two"
+        name="playlists"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Playlists",
+          headerTitleAlign: "center",
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome5
+              name="dumbbell"
+              color={focused ? "#fff" : "#828282"}
+              size={20}
+            />
+          ),
+          header: ({ options }) => (
+            <AppBar
+              title={options.title}
+              left={
+                <IconButton
+                  onPress={openModal}
+                  icon={<FontAwesome name="plus" size={30} />}
+                ></IconButton>
+              }
+            />
+          ),
         }}
-      />
+      ></Tabs.Screen>
     </Tabs>
   );
 }

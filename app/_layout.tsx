@@ -1,15 +1,11 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
-import { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import { Stack } from "expo-router";
+import { useEffect, useState } from "react";
+import { StatusBarStyle, useColorScheme } from "react-native";
 import { Provider } from "../context/auth";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, StatusBar } from "native-base";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -24,6 +20,7 @@ export const unstable_settings = {
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Manrope: require("../assets/fonts/Manrope-VariableFont_wght.ttf"),
     ...FontAwesome.font,
   });
 
@@ -35,30 +32,40 @@ export default function RootLayout() {
   return (
     <>
       {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-      {!loaded && <SplashScreen />}
-      {loaded && <RootLayoutNav />}
+      {/* {!loaded && <SplashScreen />} */}
+      {loaded ? <BaseLayout /> : null}
     </>
   );
 }
 
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+function StackLayout() {
+  return (
+    <Stack>
+      <Stack.Screen
+        name="(tabs)"
+        options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="createPlaylistModal"
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+    </Stack>
+  );
+}
+
+function BaseLayout() {
+  const statusBarStyle = ["default", "dark-content", "light-content"] as const;
 
   return (
     <>
-      {/* <ThemeProvider
-        value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        children={""}
-      > */}
       <NativeBaseProvider>
         <Provider>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-          </Stack>
+          <SafeAreaProvider>
+            <StatusBar barStyle={statusBarStyle[1]} />
+            <StackLayout />
+          </SafeAreaProvider>
         </Provider>
       </NativeBaseProvider>
-      {/* </ThemeProvider> */}
     </>
   );
 }
