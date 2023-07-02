@@ -45,10 +45,6 @@ function StackLayout() {
         name="(tabs)"
         options={{ headerShown: false }}
       ></Stack.Screen>
-      <Stack.Screen
-        name="createPlaylistModal"
-        options={{ headerShown: false, presentation: "modal" }}
-      />
     </Stack>
   );
 }

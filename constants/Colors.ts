@@ -20,5 +20,6 @@ export default {
     background: "#212121",
     text: "#fff",
     tint: "#EAEF05",
+    fundo: "#f2f2f2"
   },
 };

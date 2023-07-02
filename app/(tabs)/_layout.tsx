@@ -1,13 +1,14 @@
-import { Link, Tabs, useRouter } from "expo-router";
+import { Link, Tabs, useNavigation, usePathname, useRouter } from "expo-router";
 import AppBar from "../../components/AppBar";
 import Colors from "../../constants/Colors";
 import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons/";
-import { IconButton } from "native-base";
+import { IconButton, Text } from "native-base";
 import { useAuth } from "../../context/auth";
 
 export default function TabsLayout() {
   const { signOut } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const openModal = () => {
     router.push("createPlaylistModal");
@@ -19,14 +20,13 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: Colors["primary"].background,
         },
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
-          title: "Activity",
-          headerTitleAlign: "center",
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="home"
@@ -34,24 +34,26 @@ export default function TabsLayout() {
               size={20}
             />
           ),
-          header: ({ options }) => (
-            <AppBar
-              title={options.title}
-              left={
-                <IconButton
-                  onPress={signOut}
-                  icon={<FontAwesome name="sign-out" size={30} />}
-                ></IconButton>
-              }
-            />
-          ),
+          // title: "Activity",
+          // headerTitleAlign: "center",
+
+          // header: ({ options }) => (
+          //   <AppBar
+          //     title={options.title}
+          //     left={
+          //       <IconButton
+          //         onPress={signOut}
+          //         icon={<FontAwesome name="sign-out" size={30} />}
+          //       ></IconButton>
+          //     }
+          //   />
+          // ),
         }}
       ></Tabs.Screen>
       <Tabs.Screen
         name="playlists"
         options={{
-          title: "Playlists",
-          headerTitleAlign: "center",
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               name="dumbbell"
@@ -59,17 +61,20 @@ export default function TabsLayout() {
               size={20}
             />
           ),
-          header: ({ options }) => (
-            <AppBar
-              title={options.title}
-              left={
-                <IconButton
-                  onPress={openModal}
-                  icon={<FontAwesome name="plus" size={30} />}
-                ></IconButton>
-              }
-            />
-          ),
+          // title: "Playlists",
+          // headerTitleAlign: "center",
+
+          // header: ({ options }) => (
+          //   <AppBar
+          //     title={options.title}
+          //     left={
+          //       <IconButton
+          //         onPress={openModal}
+          //         icon={<FontAwesome name="plus" size={30} />}
+          //       ></IconButton>
+          //     }
+          //   />
+          // ),
         }}
       ></Tabs.Screen>
     </Tabs>

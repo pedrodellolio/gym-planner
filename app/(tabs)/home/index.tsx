@@ -1,15 +1,13 @@
-import { View, VStack, Box, Pressable, Flex } from "native-base";
+import { View, VStack, Box, Pressable, Flex, Text, Heading } from "native-base";
 import { StyleSheet } from "react-native";
-import { useAuth } from "../../context/auth";
-import CurrentWorkoutBanner from "../../components/CurrentWorkoutBanner";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome5 from "@expo/vector-icons/build/FontAwesome5";
-import { Text } from "../../components/Text";
-import { Heading } from "../../components/Heading";
+import CurrentWorkoutBanner from "../../../components/CurrentWorkoutBanner";
 
 export default function Home() {
   return (
     <View px={5} marginTop={10} w={"100%"}>
+
       <VStack>
         <Text style={{ color: "#6B6B6B", fontSize: 20 }}>Welcome back,</Text>
         <Heading style={[styles.text, { fontSize: 30 }]}>
