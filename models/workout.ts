@@ -1,11 +1,11 @@
 export interface Workout {
   id: string;
   name: string;
-  splits: Split;
 }
 
 export interface Split {
   id: number;
+  workoutId?: string;
   title: string;
   label: string;
   divisions: number;

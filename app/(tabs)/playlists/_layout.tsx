@@ -23,6 +23,10 @@ export default function PlaylistsLayout() {
         options={{ headerTitle: "Create Playlist", presentation: "modal" }}
       />
       <Stack.Screen
+        name="exercises"
+        options={{ headerTitle: "Add Exercise", presentation: "modal" }}
+      />
+      <Stack.Screen
         name="steps"
         options={{ headerShown: false, presentation: "modal" }}
       />

@@ -15,9 +15,9 @@ import { useRouter } from "expo-router";
 import db, { FirebaseDatabaseTypes } from "@react-native-firebase/database";
 import { useAuth } from "../../../context/auth";
 import { formatDataSnapshot } from "../../../utils/utils";
-import Workout from "../../../models/workout";
 import Dictionary from "../../../models/dictionary";
 import Colors from "../../../constants/Colors";
+import { Workout } from "../../../models/workout";
 
 interface FormData {
   name: string;

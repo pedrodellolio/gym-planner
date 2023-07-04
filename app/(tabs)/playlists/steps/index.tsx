@@ -1,12 +1,21 @@
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { View, Text, HStack, Button, Circle, VStack } from "native-base";
 import { useState } from "react";
 import WorkoutFormStep from "../../../../components/configWorkoutSteps/WorkoutFormStep";
 import WorkoutSplitStep from "../../../../components/configWorkoutSteps/WorkoutSplitStep";
+import { Exercise } from "../../../../models/exercise";
 
 const STEPS_NUMBER = 2;
 
+export interface SplitData {
+  id: number;
+  exercises: Exercise[];
+}
+
 export default function Index() {
+  const params = useLocalSearchParams();
+
+  const [formData, setFormData] = useState<SplitData[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedSplitTypeId, setSelectedSplitTypeId] = useState(0);
 
@@ -15,6 +24,7 @@ export default function Index() {
       setCurrentStep((prev) => prev + value);
     }
   };
+  console.log(formData);
   return (
     <>
       <Stack>
@@ -37,19 +47,27 @@ export default function Index() {
           {currentStep === 1 ? (
             <VStack px={5}>
               <WorkoutFormStep
+                formData={formData}
+                setFormData={setFormData}
                 selectedSplitTypeId={selectedSplitTypeId}
                 setSelectedSplitTypeId={setSelectedSplitTypeId}
+                currentStep={currentStep}
+                updateCurrentStep={updateCurrentStep}
+                playlistId={String(params.playlist)}
               />
             </VStack>
           ) : (
             currentStep === 2 && (
               <>
-                <WorkoutSplitStep selectedSplitTypeId={selectedSplitTypeId} />
+                <WorkoutSplitStep
+                  selectedSplitTypeId={selectedSplitTypeId}
+                  playlistId={String(params.playlist)}
+                />
               </>
             )
           )}
 
-          <HStack px={5} justifyContent={"space-between"}>
+          {/* <HStack px={5} justifyContent={"space-between"}>
             <Button
               display={currentStep === 1 ? "none" : "flex"}
               onPress={() => updateCurrentStep(-1)}
@@ -59,7 +77,7 @@ export default function Index() {
             <Button onPress={() => updateCurrentStep(1)}>
               {currentStep == STEPS_NUMBER ? "Finish" : "Next"}
             </Button>
-          </HStack>
+          </HStack> */}
         </VStack>
       </View>
     </>

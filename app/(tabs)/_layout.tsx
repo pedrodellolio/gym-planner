@@ -77,6 +77,20 @@ export default function TabsLayout() {
           // ),
         }}
       ></Tabs.Screen>
+
+      <Tabs.Screen
+        name="exercises"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="search"
+              color={focused ? "#fff" : "#828282"}
+              size={20}
+            />
+          ),
+        }}
+      ></Tabs.Screen>
     </Tabs>
   );
 }

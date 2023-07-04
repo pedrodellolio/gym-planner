@@ -15,36 +15,36 @@ import { FirebaseDatabaseTypes } from "@react-native-firebase/database";
 import db from "@react-native-firebase/database";
 import { useAuth } from "../../../context/auth";
 import { formatDataSnapshot } from "../../../utils/utils";
-import { Link, useRouter } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import Dictionary from "../../../models/dictionary";
-import { Workout } from "../../../models/workout";
+import { Exercise } from "../../../models/exercise";
 
-export default function Playlists() {
+export default function Exercises() {
   const { user } = useAuth();
   const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclose();
-  const [playlists, setPlaylists] = useState<Workout[]>([]);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [qryLimit, setQryLimit] = useState(5);
-  const [selectedPlaylistId, setSelectedPlaylistId] = useState<string | null>();
+  const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>();
 
   useEffect(() => {
-    const refPath = `/users/${user.uid}/workouts`;
+    const refPath = `/users/${user.uid}/exercises`;
     db()
       .ref(refPath)
       .orderByKey()
       .limitToLast(qryLimit)
-      .on("value", onWorkoutChange);
+      .on("value", onExerciseChange);
 
-    return () => db().ref(refPath).off("value", onWorkoutChange);
+    return () => db().ref(refPath).off("value", onExerciseChange);
   }, [qryLimit]);
 
-  const onWorkoutChange = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-    const dictionary: Dictionary<Workout> = snapshot.val();
+  const onExerciseChange = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+    const dictionary: Dictionary<Exercise> = snapshot.val();
     if (dictionary) {
-      const values = formatDataSnapshot(dictionary) as Workout[];
-      setPlaylists(values);
-    } else setPlaylists([]);
+      const values = formatDataSnapshot(dictionary) as Exercise[];
+      setExercises(values);
+    } else setExercises([]);
   };
 
   const deleteWorkout = async (id: string) => {
@@ -54,19 +54,19 @@ export default function Playlists() {
   };
 
   const showDetails = (id: string) => {
-    setSelectedPlaylistId(id);
+    setSelectedExerciseId(id);
     onOpen();
   };
 
   return (
     <View p={5}>
-      {playlists.length > 0 ? (
+      {exercises.length > 0 ? (
         <FlatList
-          data={playlists}
+          data={exercises}
           renderItem={({ item }) => (
             <Pressable
               key={item.id}
-              onPress={() => router.push(`/playlists/${item.id}`)}
+              onPress={() => router.push(`/exercises/${item.id}`)}
               onLongPress={() => showDetails(item.id)}
               borderBottomWidth="1"
               borderColor="muted.800"
@@ -106,7 +106,7 @@ export default function Playlists() {
       <Actionsheet isOpen={isOpen} onClose={onClose}>
         <Actionsheet.Content>
           {/* <Actionsheet.Item onPress={() => router.push("")}>Edit</Actionsheet.Item> */}
-          <Actionsheet.Item onPress={() => deleteWorkout(selectedPlaylistId)}>
+          <Actionsheet.Item onPress={() => deleteWorkout(selectedExerciseId)}>
             Delete
           </Actionsheet.Item>
           <Actionsheet.Item onPress={onClose}>Cancel</Actionsheet.Item>

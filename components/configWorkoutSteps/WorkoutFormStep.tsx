@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   HStack,
   Heading,
   Pressable,
@@ -8,14 +9,34 @@ import {
   View,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import { SPLIT_TYPES } from "../../models/workout";
+import { SPLIT_TYPES, Workout } from "../../models/workout";
+import db from "@react-native-firebase/database";
+import { useAuth } from "../../context/auth";
+import { SplitData } from "../../app/(tabs)/playlists/steps";
 
 interface Props {
+  formData: SplitData[];
+  setFormData: React.Dispatch<React.SetStateAction<SplitData[]>>;
+  //TODO: todos abaixo devem ser revisados
   selectedSplitTypeId: number;
   setSelectedSplitTypeId: React.Dispatch<React.SetStateAction<number>>;
+  currentStep: number;
+  updateCurrentStep: (value: number) => void;
+  playlistId: string;
 }
 
 export default function WorkoutFormStep(props: Props) {
+  const handleSplitData = () => {
+    const value = SPLIT_TYPES[props.selectedSplitTypeId].divisions;
+    const array = Array.from({ length: value }, (_, index) => {
+      return {
+        id: index,
+        exercises: [],
+      };
+    });
+    props.setFormData(array);
+    props.updateCurrentStep(1);
+  };
   return (
     <View mt={10}>
       <VStack display={"flex"} justifyContent={"center"} space={5}>
@@ -53,6 +74,15 @@ export default function WorkoutFormStep(props: Props) {
               />
             </Pressable>
           ))}
+          <HStack px={5} justifyContent={"space-between"}>
+            <Button
+              display={props.currentStep === 1 ? "none" : "flex"}
+              onPress={() => props.updateCurrentStep(-1)}
+            >
+              Back
+            </Button>
+            <Button onPress={handleSplitData}>Next</Button>
+          </HStack>
         </VStack>
       </VStack>
     </View>

@@ -1,4 +1,4 @@
-import { Slot, Stack, Tabs } from "expo-router";
+import { Slot, Stack, Tabs, useLocalSearchParams } from "expo-router";
 import { Circle, HStack, View } from "native-base";
 import Colors from "../../../../constants/Colors";
 

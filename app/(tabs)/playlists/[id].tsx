@@ -42,7 +42,15 @@ export default function PlaylistDetails() {
           <Text mb={2} textAlign={"center"} fontSize={16}>
             Let's start setting your workout
           </Text>
-          <Button onPress={() => router.push(`/playlists/steps`)} w={"100%"}>
+          <Button
+            onPress={() =>
+              router.push({
+                pathname: `/playlists/steps`,
+                params: { playlistId: playlist.id },
+              })
+            }
+            w={"100%"}
+          >
             Configure
           </Button>
         </Box>
