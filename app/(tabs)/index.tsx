@@ -1,13 +1,47 @@
-import { View, VStack, Box, Pressable, Flex, Text, Heading } from "native-base";
+import {
+  View,
+  VStack,
+  Box,
+  Pressable,
+  Flex,
+  Text,
+  Heading,
+  IconButton,
+} from "native-base";
 import { StyleSheet } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome5 from "@expo/vector-icons/build/FontAwesome5";
-import CurrentWorkoutBanner from "../../../components/CurrentWorkoutBanner";
+import CurrentWorkoutBanner from "../../components/CurrentWorkoutBanner";
+import Colors from "../../constants/Colors";
+import { Stack } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useAuth } from "../../context/auth";
 
 export default function Home() {
+  const { signOut } = useAuth();
   return (
     <View px={5} marginTop={10} w={"100%"}>
-
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <IconButton
+              size={"lg"}
+              onPress={signOut}
+              _icon={{
+                as: MaterialIcons,
+                name: "subdirectory-arrow-right",
+                color: "muted.800",
+              }}
+            />
+          ),
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+          headerTitleStyle: {
+            fontFamily: "Manrope_700Bold",
+          },
+          headerShadowVisible: false,
+          headerStyle: { backgroundColor: Colors["primary"].bg },
+        }}
+      />
       <VStack>
         <Text style={{ color: "#6B6B6B", fontSize: 20 }}>Welcome back,</Text>
         <Heading style={[styles.text, { fontSize: 30 }]}>

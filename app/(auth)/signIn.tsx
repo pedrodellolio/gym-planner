@@ -69,6 +69,13 @@ export default function SignIn() {
           >
             Sign in
           </Button>
+          <Button
+            mt="2"
+            colorScheme="indigo"
+            disabled={isLoading}
+          >
+            Sign in with Google
+          </Button>
           <HStack mt="6" justifyContent="center">
             <Text>I'm a new user. </Text>
             <Link href="/signUp">Sign Up</Link>

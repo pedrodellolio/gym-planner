@@ -3,10 +3,9 @@ import {
   FlatList,
   HStack,
   VStack,
-  View,
   Pressable,
   Actionsheet,
-  Box,
+  View,
   useDisclose,
 } from "native-base";
 import { useEffect, useState } from "react";
@@ -15,9 +14,11 @@ import { FirebaseDatabaseTypes } from "@react-native-firebase/database";
 import db from "@react-native-firebase/database";
 import { useAuth } from "../../../context/auth";
 import { formatDataSnapshot } from "../../../utils/utils";
-import { Link, useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import Dictionary from "../../../models/dictionary";
 import { Workout } from "../../../models/workout";
+import SearchBar from "../../../components/SearchBar";
+import Colors from "../../../constants/Colors";
 
 export default function Playlists() {
   const { user } = useAuth();
@@ -59,20 +60,21 @@ export default function Playlists() {
   };
 
   return (
-    <View p={5}>
+    <View py={5} px={6}>
       {playlists.length > 0 ? (
         <FlatList
+          // mt={4}
           data={playlists}
           renderItem={({ item }) => (
             <Pressable
               key={item.id}
               onPress={() => router.push(`/playlists/${item.id}`)}
               onLongPress={() => showDetails(item.id)}
+              borderColor="muted.200"
               borderBottomWidth="1"
-              borderColor="muted.800"
               pl={["0", "5"]}
               pr={["0", "5"]}
-              py="3"
+              py="5"
             >
               {({ isPressed }) => {
                 return (
@@ -88,8 +90,7 @@ export default function Playlists() {
                     justifyContent="space-between"
                   >
                     <VStack>
-                      <Text>{item.id}</Text>
-                      <Text>{item.name}</Text>
+                      <Text fontSize={"md"}>{item.name}</Text>
                     </VStack>
                     {/* <Spacer /> */}
                   </HStack>

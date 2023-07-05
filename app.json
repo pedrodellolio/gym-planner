@@ -35,6 +35,9 @@
         "projectId": "69d4d63f-9ced-4302-b34f-f0bcd83db4a6"
       }
     },
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
     "owner": "pedrodellolio"
   }
 }

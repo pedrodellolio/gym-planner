@@ -74,11 +74,15 @@ export default function SplitDetails() {
   };
 
   return (
-    <View>
+    <View py={5} px={6}>
       <Stack.Screen
         options={{
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+          headerTitleStyle: {
+            fontFamily: "Manrope_700Bold",
+          },
           headerShadowVisible: false,
-          headerStyle: { backgroundColor: Colors["primary"].fundo },
+          headerStyle: { backgroundColor: Colors["primary"].bg },
           headerTitle: `${split ? "Split " + split.title : ""}`,
         }}
       />
@@ -89,14 +93,17 @@ export default function SplitDetails() {
             <FlatList
               mt={-2}
               data={split.exercises}
-              renderItem={({ item }) => (
+              renderItem={({ item, index }) => (
                 <>
                   <Pressable
-                    key={item.id}
+                    key={index}
                     // onPress={() => router.push(`/split/${item.id}`)}
                     // onLongPress={() => showDetails(item.id)}
-                    px={5}
-                    py={3}
+                    borderColor="muted.200"
+                    borderBottomWidth="1"
+                    pl={["0", "5"]}
+                    pr={["0", "5"]}
+                    py="5"
                   >
                     {({ isPressed }) => {
                       return (
@@ -118,7 +125,6 @@ export default function SplitDetails() {
                       );
                     }}
                   </Pressable>
-                  <Divider />
                 </>
               )}
               keyExtractor={(item) => item.id}

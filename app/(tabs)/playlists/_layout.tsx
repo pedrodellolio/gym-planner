@@ -1,6 +1,7 @@
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { Stack, Tabs, useRouter } from "expo-router";
-import { IconButton } from "native-base";
+import { HStack, IconButton } from "native-base";
+import Colors from "../../../constants/Colors";
 
 export default function PlaylistsLayout() {
   const router = useRouter();
@@ -9,26 +10,72 @@ export default function PlaylistsLayout() {
       <Stack.Screen
         name="index"
         options={{
-          headerTitle: "Playlist",
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+          headerShadowVisible: false,
+          headerTitle: "Your Workouts",
+          headerTitleStyle: {
+            fontFamily: "Manrope_700Bold",
+          },
+          headerStyle: {
+            backgroundColor: Colors["primary"].bg,
+          },
           headerRight: () => (
-            <IconButton onPress={() => router.push("/playlists/create")} mt={1}>
-              <FontAwesome5 name="plus" size={18} />
-            </IconButton>
+            <HStack>
+              <IconButton
+                size={"lg"}
+                onPress={() => router.push("/playlists/searchPlaylists")}
+                _icon={{
+                  as: MaterialIcons,
+                  name: "search",
+                  color: "muted.800",
+                }}
+              />
+              <IconButton
+                size="lg"
+                onPress={() => router.push("/playlists/create")}
+                mt={1}
+                _icon={{
+                  as: MaterialIcons,
+                  name: "playlist-add",
+                  color: "muted.800",
+                }}
+              />
+            </HStack>
           ),
         }}
       />
       {/* <Stack.Screen name="configure" options={{ headerTitle: "Configure" }} /> */}
       <Stack.Screen
         name="create"
-        options={{ headerTitle: "Create Playlist", presentation: "modal" }}
+        options={{
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+          headerTitle: "Create Playlist",
+          presentation: "modal",
+        }}
       />
       <Stack.Screen
         name="exercises"
-        options={{ headerTitle: "Add Exercise", presentation: "modal" }}
+        options={{
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+          headerTitle: "Add Exercise",
+          presentation: "modal",
+        }}
       />
       <Stack.Screen
         name="steps"
-        options={{ headerShown: false, presentation: "modal" }}
+        options={{
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+          headerShown: false,
+          presentation: "modal",
+        }}
+      />
+      <Stack.Screen
+        name="searchPlaylists"
+        options={{
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+          headerShown: false,
+          presentation: "modal",
+        }}
       />
     </Stack>
   );

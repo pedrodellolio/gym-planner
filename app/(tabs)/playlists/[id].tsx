@@ -52,13 +52,17 @@ export default function PlaylistDetails() {
   }, [id]);
 
   return (
-    <View>
+    <View py={5} px={6}>
       {playlist && (
         <>
           <Stack.Screen
             options={{
+              contentStyle: { backgroundColor: Colors["primary"].bg },
+              headerTitleStyle: {
+                fontFamily: "Manrope_700Bold",
+              },
               headerShadowVisible: false,
-              headerStyle: { backgroundColor: Colors["primary"].fundo },
+              headerStyle: { backgroundColor: Colors["primary"].bg },
               headerTitle: `${playlist.name}`,
             }}
           />
@@ -97,9 +101,11 @@ export default function PlaylistDetails() {
                         params: { workoutId: id },
                       })
                     }
-                    // onLongPress={() => showDetails(item.id)}
-                    px={5}
-                    py={3}
+                    borderColor="muted.200"
+                    borderBottomWidth="1"
+                    pl={["0", "5"]}
+                    pr={["0", "5"]}
+                    py="5"
                   >
                     {({ isPressed }) => {
                       return (
@@ -121,7 +127,6 @@ export default function PlaylistDetails() {
                       );
                     }}
                   </Pressable>
-                  <Divider />
                 </>
               )}
               keyExtractor={(item) => item.id}

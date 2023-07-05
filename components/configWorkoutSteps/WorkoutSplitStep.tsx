@@ -10,7 +10,7 @@ import {
   View,
   useDisclose,
 } from "native-base";
-import { SPLIT_ORDER, SPLIT_TYPES, Split } from "../../models/workout";
+import { SPLIT_ORDER } from "../../models/workout";
 import { SplitData } from "../../app/(tabs)/playlists/steps";
 import { useState } from "react";
 import SelectExercises from "../SelectExercises";

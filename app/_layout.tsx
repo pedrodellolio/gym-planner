@@ -1,12 +1,15 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import { useEffect, useState } from "react";
-import { StatusBarStyle, useColorScheme } from "react-native";
+import { useEffect } from "react";
 import { Provider } from "../context/auth";
-import { NativeBaseProvider, StatusBar } from "native-base";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-
+import { NativeBaseProvider, StatusBar, extendTheme } from "native-base";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  useFonts,
+  Manrope_500Medium,
+  Manrope_600SemiBold,
+  Manrope_700Bold,
+} from "@expo-google-fonts/manrope";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -19,9 +22,10 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    Manrope: require("../assets/fonts/Manrope-VariableFont_wght.ttf"),
-    ...FontAwesome.font,
+    // SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -43,7 +47,9 @@ function StackLayout() {
     <Stack>
       <Stack.Screen
         name="(tabs)"
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       ></Stack.Screen>
     </Stack>
   );
@@ -52,9 +58,24 @@ function StackLayout() {
 function BaseLayout() {
   const statusBarStyle = ["default", "dark-content", "light-content"] as const;
 
+  const theme = extendTheme({
+    colors: {},
+    fonts: {
+      heading: "Manrope_700Bold",
+      body: "Manrope_500Medium",
+    },
+    fontSizes: {
+      "sm": 14,
+      "md": 16
+    },
+    config: {
+      initialColorMode: "light",
+    },
+  });
+
   return (
     <>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <Provider>
           <SafeAreaProvider>
             <StatusBar barStyle={statusBarStyle[1]} />

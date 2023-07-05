@@ -1,7 +1,7 @@
 import { Link, Tabs, useNavigation, usePathname, useRouter } from "expo-router";
 import AppBar from "../../components/AppBar";
 import Colors from "../../constants/Colors";
-import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons/";
+import { Ionicons, FontAwesome5, FontAwesome, MaterialIcons } from "@expo/vector-icons/";
 import { IconButton, Text } from "native-base";
 import { useAuth } from "../../context/auth";
 
@@ -24,9 +24,11 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
-          headerShown: false,
+          title: "Activity",
+          headerShown: true,
+          tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="home"
@@ -34,20 +36,6 @@ export default function TabsLayout() {
               size={20}
             />
           ),
-          // title: "Activity",
-          // headerTitleAlign: "center",
-
-          // header: ({ options }) => (
-          //   <AppBar
-          //     title={options.title}
-          //     left={
-          //       <IconButton
-          //         onPress={signOut}
-          //         icon={<FontAwesome name="sign-out" size={30} />}
-          //       ></IconButton>
-          //     }
-          //   />
-          // ),
         }}
       ></Tabs.Screen>
 
@@ -55,6 +43,8 @@ export default function TabsLayout() {
         name="playlists"
         options={{
           headerShown: false,
+          tabBarShowLabel: false,
+
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               name="dumbbell"
@@ -62,20 +52,6 @@ export default function TabsLayout() {
               size={20}
             />
           ),
-          // title: "Playlists",
-          // headerTitleAlign: "center",
-
-          // header: ({ options }) => (
-          //   <AppBar
-          //     title={options.title}
-          //     left={
-          //       <IconButton
-          //         onPress={openModal}
-          //         icon={<FontAwesome name="plus" size={30} />}
-          //       ></IconButton>
-          //     }
-          //   />
-          // ),
         }}
       ></Tabs.Screen>
 
@@ -83,6 +59,8 @@ export default function TabsLayout() {
         name="exercises"
         options={{
           headerShown: false,
+          tabBarShowLabel: false,
+
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="search"
