@@ -9,9 +9,7 @@ import {
   View,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import { SPLIT_TYPES, Workout } from "../../models/workout";
-import db from "@react-native-firebase/database";
-import { useAuth } from "../../context/auth";
+import { SPLIT_TYPES } from "../../models/workout";
 import { SplitData } from "../../app/(tabs)/playlists/steps";
 
 interface Props {

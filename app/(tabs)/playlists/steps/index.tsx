@@ -24,7 +24,6 @@ export default function Index() {
       setCurrentStep((prev) => prev + value);
     }
   };
-  console.log(formData);
   return (
     <>
       <Stack>
@@ -60,8 +59,12 @@ export default function Index() {
             currentStep === 2 && (
               <>
                 <WorkoutSplitStep
+                  formData={formData}
+                  setFormData={setFormData}
                   selectedSplitTypeId={selectedSplitTypeId}
-                  playlistId={String(params.playlist)}
+                  playlistId={String(params.playlistId)}
+                  currentStep={currentStep}
+                  updateCurrentStep={updateCurrentStep}
                 />
               </>
             )

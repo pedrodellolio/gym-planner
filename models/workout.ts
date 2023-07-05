@@ -1,17 +1,18 @@
+import { Exercise } from "./exercise";
+
 export interface Workout {
   id: string;
   name: string;
+  splits: Split[];
 }
 
 export interface Split {
-  id: number;
-  workoutId?: string;
+  id: string;
   title: string;
-  label: string;
-  divisions: number;
+  exercises: Exercise[]
 }
 
-export const SPLIT_TYPES: Split[] = [
+export const SPLIT_TYPES = [
   {
     id: 0,
     title: "A",
