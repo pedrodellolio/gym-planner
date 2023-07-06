@@ -13,18 +13,32 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome5 from "@expo/vector-icons/build/FontAwesome5";
 import CurrentWorkoutBanner from "../../components/CurrentWorkoutBanner";
 import Colors from "../../constants/Colors";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useAuth } from "../../context/auth";
+import UserIcon from "../../components/UserIcon";
 
 export default function Home() {
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
   return (
     <View px={5} marginTop={10} w={"100%"}>
       <Stack.Screen
         options={{
+          headerLeft: () => (
+            <Pressable onPress={() => router.push("/profile")}>
+              <UserIcon
+                size={"xs"}
+                rounded={"lg"}
+                marginLeft={5}
+                marginRight={1}
+              />
+            </Pressable>
+          ),
           headerRight: () => (
             <IconButton
+              mr={3}
               size={"lg"}
               onPress={signOut}
               _icon={{
@@ -34,7 +48,7 @@ export default function Home() {
               }}
             />
           ),
-          contentStyle: { backgroundColor: Colors["primary"].bg },
+          contentStyle: { backgroundColor: Colors["primary"].tint },
           headerTitleStyle: {
             fontFamily: "Manrope_700Bold",
           },

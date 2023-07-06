@@ -11,7 +11,12 @@ import {
   Button,
   Text,
 } from "native-base";
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import Colors from "../../constants/Colors";
+import { EnergizerUndrawXml } from "../../components/svg/Xml";
+import { SvgXml } from "react-native-svg";
 
 export default function SignUp() {
   const { signUp } = useAuth();
@@ -28,67 +33,98 @@ export default function SignUp() {
   };
 
   return (
-    <Center w="100%">
-      <Box safeArea p="2" py="8" w="90%" maxW="290">
-        <Heading
-          size="lg"
-          fontWeight="600"
-          color="coolGray.800"
-          _dark={{
-            color: "warmGray.50",
-          }}
-        >
-          Welcome
-        </Heading>
-        <Heading
-          mt="1"
-          _dark={{
-            color: "warmGray.200",
-          }}
-          color="coolGray.600"
-          fontWeight="medium"
-          size="xs"
-        >
-          Sign up to continue!
-        </Heading>
+    <SafeAreaView>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+        }}
+      ></Stack.Screen>
 
-        <VStack space={3} mt="5">
-          {/* <FormControl>
-            <FormControl.Label>Name</FormControl.Label>
-            <Input type="text" onChangeText={setName} />
-          </FormControl> */}
+      <VStack
+        h={"full"}
+        display={"flex"}
+        justifyContent={"center"}
+        space={10}
+        px={5}
+      >
+        <Center alignSelf={"center"} w={"250px"} h={"250px"}>
+          <SvgXml xml={EnergizerUndrawXml} width="100%" height="100%" />
+        </Center>
+
+        <VStack space={6} px={3}>
+          <Heading>Register</Heading>
           <FormControl>
-            <FormControl.Label>Email</FormControl.Label>
-            <Input type="text" onChangeText={setEmail} />
+            <Input
+              focusOutlineColor={"indigo"}
+              InputLeftElement={
+                <FontAwesome5 name="user" size={20} color="#a3a3a3" />
+              }
+              variant={"underlined"}
+              type="text"
+              p={3}
+              fontSize={16}
+              borderColor="muted.200"
+              placeholder="Full name"
+              onChangeText={setName}
+            />
           </FormControl>
           <FormControl>
-            <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" onChangeText={setPassword} />
+            <Input
+              focusOutlineColor={"indigo"}
+              InputLeftElement={
+                <MaterialIcons
+                  name="alternate-email"
+                  size={20}
+                  color="#a3a3a3"
+                />
+              }
+              variant={"underlined"}
+              type="text"
+              p={3}
+              fontSize={16}
+              borderColor="muted.200"
+              placeholder="Email"
+              onChangeText={setEmail}
+            />
+          </FormControl>
+          <FormControl>
+            <Input
+              focusOutlineColor={"indigo"}
+              borderColor="muted.200"
+              InputLeftElement={
+                <MaterialIcons name="lock-outline" size={20} color="#a3a3a3" />
+              }
+              variant={"underlined"}
+              type="password"
+              p={3}
+              fontSize={16}
+              placeholder="Password"
+              onChangeText={setPassword}
+            />
           </FormControl>
           <Button
-            mt="2"
+            mt={2}
             colorScheme="indigo"
+            borderColor={"indigo"}
+            rounded={"lg"}
+            p={3}
             disabled={isLoading}
             onPress={handleSignUp}
           >
-            Sign up
+            Register
           </Button>
-          <HStack mt="6" justifyContent="center">
-            <Text>Already have an account? </Text>
-            <Link href="/signIn">Sign In</Link>
-          </HStack>
+          <Text color={"#a3a3a3"} textAlign={"center"}>
+            Already have an account?{" "}
+            <Link
+              style={{ color: "indigo", fontWeight: "bold" }}
+              href="/signIn"
+            >
+              Login
+            </Link>
+          </Text>
         </VStack>
-      </Box>
-    </Center>
-    // <View style={styles.container}>
-    //   <Text style={styles.title}>Sign In</Text>
-    //   <View
-    //     style={styles.separator}
-    //     lightColor="#eee"
-    //     darkColor="rgba(255,255,255,0.1)"
-    //   />
-    //   <EditScreenInfo path="app/(tabs)/index.tsx" />
-    //   <Button title="Sign In" onPress={() => signIn(email, password)}></Button>
-    // </View>
+      </VStack>
+    </SafeAreaView>
   );
 }

@@ -19,6 +19,14 @@ export default function PlaylistsLayout() {
           headerStyle: {
             backgroundColor: Colors["primary"].bg,
           },
+          // headerLeft: () => (
+          //   <UserIcon
+          //     size={"xs"}
+          //     rounded={"lg"}
+          //     marginLeft={1}
+          //     marginRight={4}
+          //   />
+          // ),
           headerRight: () => (
             <HStack>
               <IconButton

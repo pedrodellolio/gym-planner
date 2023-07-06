@@ -1,8 +1,6 @@
-import { Link, Tabs, useNavigation, usePathname, useRouter } from "expo-router";
-import AppBar from "../../components/AppBar";
+import { Tabs, usePathname, useRouter } from "expo-router";
 import Colors from "../../constants/Colors";
-import { Ionicons, FontAwesome5, FontAwesome, MaterialIcons } from "@expo/vector-icons/";
-import { IconButton, Text } from "native-base";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons/";
 import { useAuth } from "../../context/auth";
 
 export default function TabsLayout() {

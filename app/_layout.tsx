@@ -10,6 +10,7 @@ import {
   Manrope_600SemiBold,
   Manrope_700Bold,
 } from "@expo-google-fonts/manrope";
+import Colors from "../constants/Colors";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -51,6 +52,22 @@ function StackLayout() {
           headerShown: false,
         }}
       ></Stack.Screen>
+      <Stack.Screen
+        name="profile"
+        options={{
+          headerTitleStyle: {
+            fontFamily: "Manrope_700Bold",
+          },
+          headerStyle: {
+            backgroundColor: Colors["primary"].bg,
+          },
+          contentStyle: { backgroundColor: Colors["primary"].bg },
+          title: "Profile",
+          headerShadowVisible: false,
+          headerShown: true,
+          presentation: "modal",
+        }}
+      ></Stack.Screen>
     </Stack>
   );
 }
@@ -65,8 +82,8 @@ function BaseLayout() {
       body: "Manrope_500Medium",
     },
     fontSizes: {
-      "sm": 14,
-      "md": 16
+      sm: 14,
+      md: 16,
     },
     config: {
       initialColorMode: "light",

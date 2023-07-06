@@ -53,10 +53,11 @@ export function Provider({ children }: Props) {
   useProtectedRoute(user);
 
   function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
-    console.log(user);
     setUser(user);
     if (isLoading) setIsLoading(false);
   }
+
+  console.log(user);
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
