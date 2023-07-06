@@ -17,6 +17,7 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: Colors["primary"].background,
+          height: 60,
         },
         tabBarShowLabel: true,
       }}
@@ -40,9 +41,9 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="playlists"
         options={{
+          title: "Workouts",
           headerShown: false,
           tabBarShowLabel: false,
-
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               name="dumbbell"
@@ -56,9 +57,9 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="exercises"
         options={{
+          title: "Exercises",
           headerShown: false,
           tabBarShowLabel: false,
-
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="search"

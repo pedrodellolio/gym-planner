@@ -8,6 +8,8 @@ import {
   Actionsheet,
   Box,
   useDisclose,
+  Center,
+  Button,
 } from "native-base";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
@@ -18,6 +20,8 @@ import { formatDataSnapshot } from "../../../utils/utils";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import Dictionary from "../../../models/dictionary";
 import { Exercise } from "../../../models/exercise";
+import { SvgXml } from "react-native-svg";
+import { WorkingOutUndrawXml } from "../../../components/svg/Xml";
 
 export default function Exercises() {
   const { user } = useAuth();
@@ -100,7 +104,20 @@ export default function Exercises() {
           keyExtractor={(item) => item.id}
         />
       ) : (
-        <Text>Nothing to see here!</Text>
+        <VStack alignItems={"center"} space={5}>
+          <Center alignSelf={"center"} mt={20} w={"200px"} h={"250px"}>
+            <SvgXml xml={WorkingOutUndrawXml} width="100%" height="100%" />
+          </Center>
+          <Text fontSize={"md"} color={"muted.500"}>
+            You don't have any exercises yet
+          </Text>
+          <Button
+            colorScheme={"indigo"}
+            onPress={() => router.push("/exercises/create")}
+          >
+            Create new exercise
+          </Button>
+        </VStack>
       )}
 
       <Actionsheet isOpen={isOpen} onClose={onClose}>

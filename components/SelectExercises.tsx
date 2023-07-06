@@ -20,7 +20,7 @@ import { formatDataSnapshot } from "../utils/utils";
 import { useAuth } from "../context/auth";
 import { useEffect } from "react";
 import db from "@react-native-firebase/database";
-import { SplitData } from "../app/(tabs)/playlists/steps";
+import { SplitData } from "../app/(tabs)/playlists/settingWorkout";
 
 interface Props {
   splitId: number;
@@ -37,9 +37,10 @@ export default function SelectExercises(props: Props) {
   const [selectedExercises, setSelectedExercises] = useState<string[]>([]);
 
   useEffect(() => {
+    console.log("abrindo modal");
     const split = props.formData.find((f) => f.id === props.splitId);
     setSelectedExercises(split.exercises.map((e) => e.id));
-  }, [props.splitId]);
+  }, [props.isOpen]);
 
   useEffect(() => {
     const refPath = `/users/${user.uid}/exercises`;
@@ -89,6 +90,14 @@ export default function SelectExercises(props: Props) {
     });
     props.setFormData(updatedFormData);
     props.onClose();
+  };
+
+  const updateSelectedExercises = (selected: boolean, exerciseId: string) => {
+    if (selected) setSelectedExercises((prev) => [...prev, exerciseId]);
+    else
+      setSelectedExercises((prevExercises) =>
+        prevExercises.filter((id) => id !== exerciseId)
+      );
   };
 
   return (
@@ -149,13 +158,39 @@ export default function SelectExercises(props: Props) {
                     pr={["0", "5"]}
                     py="4"
                   >
-                    <Checkbox.Group
+                    <Checkbox
+                      onChange={(selected) =>
+                        updateSelectedExercises(selected, item.id)
+                      }
+                      value={item.id}
+                      isChecked={selectedExercises.includes(item.id)}
+                    >
+                      {item.name}
+                    </Checkbox>
+
+                    {/* <Checkbox.Group
+                      colorScheme="green"
+                      accessibilityLabel="pick an item"
+                      value={selectedExercises}
+                      onChange={(values) => {
+                        const updatedSelectedExercises = [
+                          ...selectedExercises,
+                          ...values,
+                        ];
+                        console.log(updatedSelectedExercises); // setSelectedExercises((prev) => [...prev, values])
+                        setSelectedExercises(updatedSelectedExercises);
+                      }}
+                    >
+                      <Checkbox value={item.id}>{item.name}</Checkbox>
+                    </Checkbox.Group> */}
+
+                    {/* <Checkbox.Group
                       onChange={setSelectedExercises}
                       value={selectedExercises}
                       accessibilityLabel="choose numbers"
                     >
                       <Checkbox value={item.id}>{item.name}</Checkbox>
-                    </Checkbox.Group>
+                    </Checkbox.Group> */}
                   </Box>
                 )}
                 keyExtractor={(item, index) => {

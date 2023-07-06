@@ -10,7 +10,7 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SPLIT_TYPES } from "../../models/workout";
-import { SplitData } from "../../app/(tabs)/playlists/steps";
+import { SplitData } from "../../app/(tabs)/playlists/settingWorkout";
 
 interface Props {
   formData: SplitData[];

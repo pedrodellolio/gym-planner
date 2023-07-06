@@ -1,9 +1,9 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 import { View, Text, HStack, Button, Circle, VStack } from "native-base";
 import { useState } from "react";
-import WorkoutFormStep from "../../../../components/configWorkoutSteps/WorkoutFormStep";
-import WorkoutSplitStep from "../../../../components/configWorkoutSteps/WorkoutSplitStep";
-import { Exercise } from "../../../../models/exercise";
+import WorkoutFormStep from "../../../components/configWorkoutSteps/WorkoutFormStep";
+import WorkoutSplitStep from "../../../components/configWorkoutSteps/WorkoutSplitStep";
+import { Exercise } from "../../../models/exercise";
 
 const STEPS_NUMBER = 2;
 
@@ -26,9 +26,7 @@ export default function Index() {
   };
   return (
     <>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerTitle: "Activity" }} />
-      </Stack>
+      {/* <Stack.Screen options={{ headerTitle: "Setting Workout" }} /> */}
 
       <View h={"full"}>
         <HStack mt={3} space={3} p={3} alignSelf={"center"}>

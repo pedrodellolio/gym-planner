@@ -11,7 +11,7 @@ import {
   useDisclose,
 } from "native-base";
 import { SPLIT_ORDER } from "../../models/workout";
-import { SplitData } from "../../app/(tabs)/playlists/steps";
+import { SplitData } from "../../app/(tabs)/playlists/settingWorkout";
 import { useState } from "react";
 import SelectExercises from "../SelectExercises";
 import { useAuth } from "../../context/auth";
@@ -37,6 +37,8 @@ export default function WorkoutSplitStep(props: Props) {
     setSplitId(splitId);
     onOpen();
   };
+
+  console.log(splitId);
 
   const saveSplitInfo = () => {
     try {

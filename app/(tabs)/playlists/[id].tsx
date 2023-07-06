@@ -75,7 +75,7 @@ export default function PlaylistDetails() {
                 <Button
                   onPress={() =>
                     router.push({
-                      pathname: `/playlists/steps`,
+                      pathname: `/playlists/settingWorkout`,
                       params: { playlistId: id },
                     })
                   }

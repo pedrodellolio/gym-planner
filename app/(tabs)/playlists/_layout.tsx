@@ -70,10 +70,10 @@ export default function PlaylistsLayout() {
         }}
       />
       <Stack.Screen
-        name="steps"
+        name="settingWorkout"
         options={{
           contentStyle: { backgroundColor: Colors["primary"].bg },
-          headerShown: false,
+          headerTitle: "Setting Workout",
           presentation: "modal",
         }}
       />
