@@ -1,11 +1,9 @@
 import {
   Box,
-  Button,
   Divider,
   FlatList,
   HStack,
   Pressable,
-  Text,
   VStack,
   View,
   useDisclose,
@@ -17,6 +15,10 @@ import SelectExercises from "../SelectExercises";
 import { useAuth } from "../../context/auth";
 import db from "@react-native-firebase/database";
 import { useRouter } from "expo-router";
+import { useTheme } from "../../context/theme";
+import { Text } from "../themed/Text";
+import { Button } from "../themed/Button";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Props {
   formData: SplitData[];
@@ -31,6 +33,8 @@ export default function WorkoutSplitStep(props: Props) {
   const router = useRouter();
   const { onOpen, onClose, isOpen } = useDisclose();
   const { user } = useAuth();
+  const { theme } = useTheme();
+
   const [splitId, setSplitId] = useState(0);
 
   const handleOpenModal = (splitId: number) => {
@@ -59,13 +63,13 @@ export default function WorkoutSplitStep(props: Props) {
   };
 
   return (
-    <View>
-      <Box mt={10}>
+    <SafeAreaView>
+      <Box h={"100%"} mt={2}>
         <VStack space={10}>
           {props.formData.map((split) => {
             return (
               <VStack key={split.id} space={3}>
-                <Box bgColor={"gray.300"} p={3}>
+                <Box bgColor={theme.background[500]} p={3}>
                   <Text>Split {SPLIT_ORDER[split.id]}</Text>
                 </Box>
                 <FlatList
@@ -105,22 +109,37 @@ export default function WorkoutSplitStep(props: Props) {
                   )}
                   keyExtractor={(item) => item.id}
                 />
-                <Button onPress={() => handleOpenModal(split.id)}>
-                  Add exercise
-                </Button>
+                <Button
+                  mx={5}
+                  variant="solid"
+                  title="Add exercise"
+                  onPress={() => handleOpenModal(split.id)}
+                />
               </VStack>
             );
           })}
         </VStack>
 
-        <HStack px={5} justifyContent={"space-between"}>
+        <HStack
+          position="relative"
+          bottom={0}
+          px={5}
+          w="full"
+          justifyContent={"space-between"}
+        >
           <Button
+            px={10}
+            title="Back"
+            variant="outline"
             display={props.currentStep === 1 ? "none" : "flex"}
             onPress={() => props.updateCurrentStep(-1)}
-          >
-            Back
-          </Button>
-          <Button onPress={saveSplitInfo}>Finish</Button>
+          />
+          <Button
+            px={10}
+            title="Finish"
+            variant="solid"
+            onPress={saveSplitInfo}
+          />
         </HStack>
       </Box>
       <SelectExercises
@@ -130,6 +149,6 @@ export default function WorkoutSplitStep(props: Props) {
         onClose={onClose}
         isOpen={isOpen}
       />
-    </View>
+    </SafeAreaView>
   );
 }

@@ -1,5 +1,4 @@
 import {
-  Text,
   FlatList,
   HStack,
   VStack,
@@ -22,6 +21,8 @@ import Dictionary from "../../../models/dictionary";
 import { Exercise } from "../../../models/exercise";
 import { SvgXml } from "react-native-svg";
 import { WorkingOutUndrawXml } from "../../../components/svg/Xml";
+import { Text } from "../../../components/themed/Text";
+import { FlatListItem } from "../../../components/themed/FlatListItem";
 
 export default function Exercises() {
   const { user } = useAuth();
@@ -68,38 +69,11 @@ export default function Exercises() {
         <FlatList
           data={exercises}
           renderItem={({ item }) => (
-            <Pressable
-              key={item.id}
+            <FlatListItem
+              item={item}
               onPress={() => router.push(`/exercises/${item.id}`)}
               onLongPress={() => showDetails(item.id)}
-              borderBottomWidth="1"
-              borderColor="muted.800"
-              pl={["0", "5"]}
-              pr={["0", "5"]}
-              py="3"
-            >
-              {({ isPressed }) => {
-                return (
-                  <HStack
-                    style={{
-                      transform: [
-                        {
-                          scale: isPressed ? 0.99 : 1,
-                        },
-                      ],
-                    }}
-                    space={[2, 3]}
-                    justifyContent="space-between"
-                  >
-                    <VStack>
-                      <Text>{item.id}</Text>
-                      <Text>{item.name}</Text>
-                    </VStack>
-                    {/* <Spacer /> */}
-                  </HStack>
-                );
-              }}
-            </Pressable>
+            />
           )}
           keyExtractor={(item) => item.id}
         />
@@ -108,7 +82,7 @@ export default function Exercises() {
           <Center alignSelf={"center"} mt={20} w={"200px"} h={"250px"}>
             <SvgXml xml={WorkingOutUndrawXml} width="100%" height="100%" />
           </Center>
-          <Text fontSize={"md"} color={"muted.500"}>
+          <Text>
             You don't have any exercises yet
           </Text>
           <Button

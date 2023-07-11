@@ -1,23 +1,17 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  FormControl,
-  Input,
-  VStack,
-  View,
-} from "native-base";
+import { Center, FormControl, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import db, { FirebaseDatabaseTypes } from "@react-native-firebase/database";
+import db from "@react-native-firebase/database";
 import { useAuth } from "../../../context/auth";
 import { formatDataSnapshot } from "../../../utils/utils";
 import Dictionary from "../../../models/dictionary";
 import Colors from "../../../constants/Colors";
 import { Workout } from "../../../models/workout";
+import { Input } from "../../../components/themed/Input";
+import { useTheme } from "../../../context/theme";
+import { Button } from "../../../components/themed/Button";
 
 interface FormData {
   name: string;
@@ -26,6 +20,7 @@ interface FormData {
 export default function CreatePlaylist() {
   const router = useRouter();
   const { user } = useAuth();
+  const { theme } = useTheme();
 
   const [formData, setFormData] = useState<FormData>({ name: "" });
   const [isLoading, setIsLoading] = useState(false);
@@ -75,14 +70,13 @@ export default function CreatePlaylist() {
               fontSize: 22,
             }}
           >
-            Dê um nome para sua playlist
+            Give your new workout a name
           </FormControl.Label>
           <Input
-            placeholder="My new playlist"
             onChangeText={(value) => setFormData({ ...formData, name: value })}
             defaultValue={formData.name}
-            fontSize={20}
-            mt={3}
+            placeholder="My new workout"
+            color={theme.text}
           />
           {/* <FormControl.HelperText
             _text={{
@@ -102,25 +96,21 @@ export default function CreatePlaylist() {
 
         <VStack position={"absolute"} bottom={0} m={5} w={"full"} space={3}>
           <Button
-            variant={"primary"}
-            backgroundColor={Colors["primary"].tint}
-            w={"100%"}
-            py={4}
-            rounded={"lg"}
+            mt={2}
+            p={3}
+            variant={"solid"}
+            title="Create new workout"
+            disabled={isLoading}
             onPress={createPlaylist}
-            isLoading={isLoading}
-          >
-            Criar nova playlist
-          </Button>
+          />
+
           <Button
+            p={3}
             variant={"outline"}
-            w={"100%"}
-            py={4}
-            rounded={"lg"}
+            title="Cancel"
+            disabled={isLoading}
             onPress={router.back}
-          >
-            Cancelar
-          </Button>
+          />
         </VStack>
       </Center>
     </SafeAreaView>

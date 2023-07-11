@@ -1,13 +1,10 @@
 import { Stack, useGlobalSearchParams, useRouter } from "expo-router";
 import {
   Box,
-  Button,
-  Divider,
   FlatList,
   Flex,
   HStack,
   Pressable,
-  Text,
   VStack,
   View,
 } from "native-base";
@@ -17,7 +14,9 @@ import { useAuth } from "../../../context/auth";
 import Dictionary from "../../../models/dictionary";
 import { Split, Workout } from "../../../models/workout";
 import { formatDataSnapshot } from "../../../utils/utils";
-import Colors from "../../../constants/Colors";
+import { useTheme } from "../../../context/theme";
+import { Text } from "../../../components/themed/Text";
+import { Button } from "../../../components/themed/Button";
 
 interface WorkoutData {
   id: string;
@@ -28,6 +27,8 @@ interface WorkoutData {
 export default function PlaylistDetails() {
   const { id } = useGlobalSearchParams() as { id: string };
   const { user } = useAuth();
+  const { theme } = useTheme();
+
   const router = useRouter();
 
   const [playlist, setPlaylist] = useState<Workout | null>(null);
@@ -57,22 +58,26 @@ export default function PlaylistDetails() {
         <>
           <Stack.Screen
             options={{
-              contentStyle: { backgroundColor: Colors["primary"].bg },
               headerTitleStyle: {
                 fontFamily: "Manrope_700Bold",
               },
               headerShadowVisible: false,
-              headerStyle: { backgroundColor: Colors["primary"].bg },
+              headerStyle: {
+                backgroundColor: theme.background[300],
+              },
               headerTitle: `${playlist.name}`,
             }}
           />
           {playlist.splits.length === 0 ? (
             <Flex justifyContent="center" alignItems="center" h="full">
               <Box w={"64"}>
-                <Text mb={2} textAlign={"center"} fontSize={16}>
+                <Text style={{ marginBottom: 2, textAlign: "center" }}>
                   Let's start setting your workout
                 </Text>
                 <Button
+                  title="Configure"
+                  mt={5}
+                  variant={"solid"}
                   onPress={() =>
                     router.push({
                       pathname: `/playlists/settingWorkout`,
@@ -80,9 +85,7 @@ export default function PlaylistDetails() {
                     })
                   }
                   w={"100%"}
-                >
-                  Configure
-                </Button>
+                />
               </Box>
             </Flex>
           ) : (

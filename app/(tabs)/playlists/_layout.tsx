@@ -1,62 +1,64 @@
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { Stack, Tabs, useRouter } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Stack, useRouter } from "expo-router";
 import { HStack, IconButton } from "native-base";
-import Colors from "../../../constants/Colors";
+import { useTheme } from "../../../context/theme";
+
+function HeaderRight({ theme }) {
+  const router = useRouter();
+
+  return (
+    <HStack>
+      <IconButton
+        size={"lg"}
+        onPress={() => router.push("/playlists/searchPlaylists")}
+        _icon={{
+          as: MaterialIcons,
+          name: "search",
+          color: theme.text,
+        }}
+      />
+      <IconButton
+        size="lg"
+        onPress={() => router.push("/playlists/create")}
+        mt={1}
+        _icon={{
+          as: MaterialIcons,
+          name: "playlist-add",
+          color: theme.text,
+        }}
+      />
+    </HStack>
+  );
+}
 
 export default function PlaylistsLayout() {
-  const router = useRouter();
+  const { theme } = useTheme();
+
+  const options = {
+    headerShadowVisible: false,
+    headerTitleStyle: {
+      fontFamily: "Manrope_700Bold",
+      fontSize: 18
+    },
+    headerStyle: {
+      backgroundColor: theme.background[300],
+    },
+  };
+
   return (
     <Stack>
       <Stack.Screen
         name="index"
         options={{
-          contentStyle: { backgroundColor: Colors["primary"].bg },
-          headerShadowVisible: false,
+          ...options,
           headerTitle: "Your Workouts",
-          headerTitleStyle: {
-            fontFamily: "Manrope_700Bold",
-          },
-          headerStyle: {
-            backgroundColor: Colors["primary"].bg,
-          },
-          // headerLeft: () => (
-          //   <UserIcon
-          //     size={"xs"}
-          //     rounded={"lg"}
-          //     marginLeft={1}
-          //     marginRight={4}
-          //   />
-          // ),
-          headerRight: () => (
-            <HStack>
-              <IconButton
-                size={"lg"}
-                onPress={() => router.push("/playlists/searchPlaylists")}
-                _icon={{
-                  as: MaterialIcons,
-                  name: "search",
-                  color: "muted.800",
-                }}
-              />
-              <IconButton
-                size="lg"
-                onPress={() => router.push("/playlists/create")}
-                mt={1}
-                _icon={{
-                  as: MaterialIcons,
-                  name: "playlist-add",
-                  color: "muted.800",
-                }}
-              />
-            </HStack>
-          ),
+          headerRight: () => <HeaderRight theme={theme} />,
         }}
       />
-      {/* <Stack.Screen name="configure" options={{ headerTitle: "Configure" }} /> */}
       <Stack.Screen
         name="create"
         options={{
-          contentStyle: { backgroundColor: Colors["primary"].bg },
+          ...options,
           headerTitle: "Create Playlist",
           presentation: "modal",
         }}
@@ -64,15 +66,14 @@ export default function PlaylistsLayout() {
       <Stack.Screen
         name="exercises"
         options={{
-          contentStyle: { backgroundColor: Colors["primary"].bg },
-          headerTitle: "Add Exercise",
+          ...options,
           presentation: "modal",
         }}
       />
       <Stack.Screen
         name="settingWorkout"
         options={{
-          contentStyle: { backgroundColor: Colors["primary"].bg },
+          ...options,
           headerTitle: "Setting Workout",
           presentation: "modal",
         }}
@@ -80,7 +81,6 @@ export default function PlaylistsLayout() {
       <Stack.Screen
         name="searchPlaylists"
         options={{
-          contentStyle: { backgroundColor: Colors["primary"].bg },
           headerShown: false,
           presentation: "modal",
         }}

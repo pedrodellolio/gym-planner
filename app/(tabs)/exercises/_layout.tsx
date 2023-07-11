@@ -1,34 +1,68 @@
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { Slot, Stack, useRouter } from "expo-router";
-import { Button, IconButton } from "native-base";
+import { Button, HStack, IconButton } from "native-base";
 import Colors from "../../../constants/Colors";
+import { useTheme } from "../../../context/theme";
+
+function HeaderRight({ theme }) {
+  const router = useRouter();
+
+  return (
+    <HStack>
+      <IconButton
+        size={"lg"}
+        onPress={() => router.push("/exercises/searchPlaylists")}
+        _icon={{
+          as: MaterialIcons,
+          name: "search",
+          color: theme.text,
+        }}
+      />
+      <IconButton
+        size="lg"
+        onPress={() => router.push("/exercises/create")}
+        mt={1}
+        _icon={{
+          as: MaterialIcons,
+          name: "playlist-add",
+          color: theme.text,
+        }}
+      />
+    </HStack>
+  );
+}
 
 export default function ExercisesLayout() {
-  const router = useRouter();
+  const { theme } = useTheme();
+
+  const options = {
+    headerTitleStyle: {
+      fontFamily: "Manrope_700Bold",
+      fontSize: 18
+    },
+    headerStyle: {
+      backgroundColor: theme.background[300],
+    },
+    headerShadowVisible: false,
+  };
+
   return (
     <Stack>
       <Stack.Screen
         name="index"
         options={{
-          headerTitleStyle: {
-            fontFamily: "Manrope_700Bold",
-          },
-          headerStyle: {
-            backgroundColor: Colors["primary"].bg,
-          },
-          headerShadowVisible: false,
-          contentStyle: { backgroundColor: Colors["primary"].bg },
+          ...options,
           headerTitle: "Exercises",
-          headerRight: () => (
-            <IconButton onPress={() => router.push("/exercises/create")} mt={1}>
-              <FontAwesome5 name="plus" size={18} />
-            </IconButton>
-          ),
+          headerRight: () => <HeaderRight theme={theme} />,
         }}
       />
       <Stack.Screen
         name="create"
-        options={{ headerTitle: "Create Exercise", presentation: "modal" }}
+        options={{
+          ...options,
+          headerTitle: "Create Exercise",
+          presentation: "modal",
+        }}
       />
     </Stack>
   );

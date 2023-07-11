@@ -49,7 +49,7 @@ function useProtectedRoute(user: FirebaseAuthTypes.User | null) {
   }, [user, segments, navigationState?.key]);
 }
 
-export function Provider({ children }: Props) {
+export function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const segments = useSegments();

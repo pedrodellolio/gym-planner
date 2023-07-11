@@ -4,6 +4,7 @@ import { useState } from "react";
 import WorkoutFormStep from "../../../components/configWorkoutSteps/WorkoutFormStep";
 import WorkoutSplitStep from "../../../components/configWorkoutSteps/WorkoutSplitStep";
 import { Exercise } from "../../../models/exercise";
+import { useTheme } from "../../../context/theme";
 
 const STEPS_NUMBER = 2;
 
@@ -14,6 +15,7 @@ export interface SplitData {
 
 export default function Index() {
   const params = useLocalSearchParams();
+  const { theme } = useTheme();
 
   const [formData, setFormData] = useState<SplitData[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
@@ -32,11 +34,11 @@ export default function Index() {
         <HStack mt={3} space={3} p={3} alignSelf={"center"}>
           <Circle
             size="12px"
-            bg={currentStep === 1 ? "gray.600" : "gray.300"}
+            bg={currentStep === 1 ? theme.background[500] : theme.text}
           ></Circle>
           <Circle
             size="12px"
-            bg={currentStep === 2 ? "gray.600" : "gray.300"}
+            bg={currentStep === 2 ? theme.background[500] : theme.text}
           ></Circle>
         </HStack>
 

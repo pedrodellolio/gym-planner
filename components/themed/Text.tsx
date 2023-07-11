@@ -1,8 +1,18 @@
+import { TextProps } from "react-native";
 import { Text as NativeBaseText } from "native-base";
-import {Text as DefaultText} from "react-native";
-
-type TextProps = DefaultText['props'];
+import { useTheme } from "../../context/theme";
 
 export function Text(props: TextProps) {
-  return <NativeBaseText {...props} style={[props.style, { fontFamily: "ManropeRegular" }]} />;
+  const { style, ...otherProps } = props;
+  const { theme } = useTheme();
+
+  return (
+    <NativeBaseText
+      style={[
+        { color: theme.text, fontSize: 16, lineHeight: 27, fontWeight: "400" },
+        style,
+      ]}
+      {...otherProps}
+    />
+  );
 }

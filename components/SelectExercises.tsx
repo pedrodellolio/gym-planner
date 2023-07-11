@@ -21,6 +21,7 @@ import { useAuth } from "../context/auth";
 import { useEffect } from "react";
 import db from "@react-native-firebase/database";
 import { SplitData } from "../app/(tabs)/playlists/settingWorkout";
+import { useTheme } from "../context/theme";
 
 interface Props {
   splitId: number;
@@ -31,13 +32,13 @@ interface Props {
 }
 
 export default function SelectExercises(props: Props) {
+  const { theme } = useTheme();
   const { user } = useAuth();
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [qryLimit, setQryLimit] = useState(10);
   const [selectedExercises, setSelectedExercises] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log("abrindo modal");
     const split = props.formData.find((f) => f.id === props.splitId);
     setSelectedExercises(split.exercises.map((e) => e.id));
   }, [props.isOpen]);
@@ -107,7 +108,7 @@ export default function SelectExercises(props: Props) {
         isOpen={props.isOpen}
         onClose={props.onClose}
       >
-        <Actionsheet.Content>
+        <Actionsheet.Content bgColor={theme.background[500]}>
           <Box w="100%" h={"full"}>
             <Box h={"100%"} px={4}>
               <Text fontSize="20" color="gray.500">

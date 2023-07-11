@@ -1,12 +1,14 @@
 import { Tabs, usePathname, useRouter } from "expo-router";
-import Colors from "../../constants/Colors";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons/";
-import { useAuth } from "../../context/auth";
+import { useColorScheme } from "react-native";
+import Colors from "../../constants/Colors";
+import { useThemeColor } from "../../components/Themed";
+import { useTheme } from "../../context/theme";
 
 export default function TabsLayout() {
-  const { signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const { theme, colorScheme } = useTheme();
 
   const openModal = () => {
     router.push("createPlaylistModal");
@@ -16,8 +18,9 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: Colors["primary"].background,
-          height: 60,
+          backgroundColor:
+            colorScheme === "light" ? theme.black : theme.background[400],
+          height: 55,
         },
         tabBarShowLabel: true,
       }}
@@ -31,7 +34,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="home"
-              color={focused ? "#fff" : "#828282"}
+              color={focused ? theme.white : theme.textMuted}
               size={20}
             />
           ),
@@ -47,7 +50,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               name="dumbbell"
-              color={focused ? "#fff" : "#828282"}
+              color={focused ? theme.white : theme.textMuted}
               size={20}
             />
           ),
@@ -63,7 +66,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="search"
-              color={focused ? "#fff" : "#828282"}
+              color={focused ? theme.white : theme.textMuted}
               size={20}
             />
           ),

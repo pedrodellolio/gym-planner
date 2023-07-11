@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { useAuth } from "../context/auth";
 import { Image, Square } from "native-base";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useTheme } from "../context/theme";
 
 interface Props {
   marginRight?: number;
@@ -12,7 +13,7 @@ interface Props {
 
 export default function UserIcon(props: Props) {
   const { user } = useAuth();
-
+  const { theme } = useTheme();
   return (
     <>
       {user && user.photoURL ? (
@@ -32,9 +33,9 @@ export default function UserIcon(props: Props) {
           ml={props.marginLeft ?? 0}
           mr={props.marginRight ?? 0}
           rounded={props.rounded ?? "none"}
-          bgColor={"muted.200"}
+          bgColor={theme.tint[500]}
         >
-          <FontAwesome5 name="user" size={20} color="#a3a3a3" />
+          <FontAwesome5 name="user" size={20} color={theme.text} />
         </Square>
       )}
     </>

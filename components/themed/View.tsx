@@ -1,16 +1,19 @@
-import Colors from "../../constants/Colors";
-import { View as NativeBaseView } from "native-base";
 import { View as DefaultView } from "react-native";
+import { useThemeColor } from "../Themed";
 
-type ViewProps = DefaultView["props"];
+type ThemeProps = {
+  lightColor?: string;
+  darkColor?: string;
+};
+
+export type ViewProps = ThemeProps & DefaultView["props"];
 
 export function View(props: ViewProps) {
-  const { style, ...otherProps } = props;
-
-  return (
-    <NativeBaseView
-      style={[{ backgroundColor: Colors["primary"].bg }, style]}
-      {...otherProps}
-    />
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
   );
+
+  return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }

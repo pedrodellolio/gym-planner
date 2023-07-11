@@ -1,16 +1,11 @@
-import {
-  Box,
-  Button,
-  HStack,
-  Heading,
-  Pressable,
-  Text,
-  VStack,
-  View,
-} from "native-base";
+import { Box, HStack, Pressable, VStack, View } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SPLIT_TYPES } from "../../models/workout";
 import { SplitData } from "../../app/(tabs)/playlists/settingWorkout";
+import { useTheme } from "../../context/theme";
+import { Text } from "../themed/Text";
+import { Button } from "../themed/Button";
+import { Heading } from "../themed/Heading";
 
 interface Props {
   formData: SplitData[];
@@ -24,6 +19,8 @@ interface Props {
 }
 
 export default function WorkoutFormStep(props: Props) {
+  const { theme } = useTheme();
+
   const handleSplitData = () => {
     const value = SPLIT_TYPES[props.selectedSplitTypeId].divisions;
     const array = Array.from({ length: value }, (_, index) => {
@@ -36,9 +33,9 @@ export default function WorkoutFormStep(props: Props) {
     props.updateCurrentStep(1);
   };
   return (
-    <View mt={10}>
+    <View mt={2}>
       <VStack display={"flex"} justifyContent={"center"} space={5}>
-        <Heading fontSize={18} textAlign={"center"}>
+        <Heading style={{ fontSize: 18 }}>
           Choose how your training will be divided
         </Heading>
         <VStack space={3}>
@@ -47,23 +44,28 @@ export default function WorkoutFormStep(props: Props) {
               rounded={"lg"}
               key={split.id}
               borderWidth={split.id === props.selectedSplitTypeId ? 2 : 0}
+              borderColor={theme.tint[500]}
               onPress={() => props.setSelectedSplitTypeId(split.id)}
-              bgColor={"gray.300"}
-              p={3}
+              bgColor={theme.background[200]}
+              p={4}
               display={"flex"}
               flexDirection={"row"}
               justifyContent={"space-between"}
               alignItems={"center"}
-              h={"24"}
             >
               <Box w={"80%"}>
-                <Text fontWeight={500} fontSize={16}>
+                <Text style={{ color: theme.text, fontWeight: "600" }}>
                   {split.title}
                 </Text>
-                <Text color={"gray.500"}>{split.label}</Text>
+                <Text style={{ color: theme.text }}>{split.label}</Text>
               </Box>
               <MaterialIcons
                 size={20}
+                color={
+                  split.id === props.selectedSplitTypeId
+                    ? theme.tint[500]
+                    : theme.text
+                }
                 name={
                   split.id === props.selectedSplitTypeId
                     ? "radio-button-on"
@@ -72,14 +74,20 @@ export default function WorkoutFormStep(props: Props) {
               />
             </Pressable>
           ))}
-          <HStack px={5} justifyContent={"space-between"}>
+          <HStack justifyContent={"space-between"}>
             <Button
+              px={10}
+              title="Back"
+              variant={"solid"}
               display={props.currentStep === 1 ? "none" : "flex"}
               onPress={() => props.updateCurrentStep(-1)}
-            >
-              Back
-            </Button>
-            <Button onPress={handleSplitData}>Next</Button>
+            />
+            <Button
+              px={10}
+              variant={"solid"}
+              title="Next"
+              onPress={handleSplitData}
+            />
           </HStack>
         </VStack>
       </VStack>

@@ -77,7 +77,6 @@ export default function SplitDetails() {
     <View py={5} px={6}>
       <Stack.Screen
         options={{
-          contentStyle: { backgroundColor: Colors["primary"].bg },
           headerTitleStyle: {
             fontFamily: "Manrope_700Bold",
           },
