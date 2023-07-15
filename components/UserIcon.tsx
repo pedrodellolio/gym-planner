@@ -13,7 +13,7 @@ interface Props {
 
 export default function UserIcon(props: Props) {
   const { user } = useAuth();
-  const { theme } = useTheme();
+  const { theme, colorScheme } = useTheme();
   return (
     <>
       {user && user.photoURL ? (
@@ -35,7 +35,11 @@ export default function UserIcon(props: Props) {
           rounded={props.rounded ?? "none"}
           bgColor={theme.tint[500]}
         >
-          <FontAwesome5 name="user" size={20} color={theme.text} />
+          <FontAwesome5
+            name="user"
+            size={20}
+            color={colorScheme === "dark" ? theme.white : theme.black}
+          />
         </Square>
       )}
     </>

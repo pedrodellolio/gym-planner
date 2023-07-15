@@ -1,8 +1,5 @@
 import { Tabs, usePathname, useRouter } from "expo-router";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons/";
-import { useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
-import { useThemeColor } from "../../components/Themed";
 import { useTheme } from "../../context/theme";
 
 export default function TabsLayout() {
@@ -18,8 +15,7 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor:
-            colorScheme === "light" ? theme.black : theme.background[400],
+          backgroundColor: theme.background[500],
           height: 55,
         },
         tabBarShowLabel: true,
@@ -34,7 +30,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="home"
-              color={focused ? theme.white : theme.textMuted}
+              color={focused ? theme.text : theme.textMuted}
               size={20}
             />
           ),
@@ -50,7 +46,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               name="dumbbell"
-              color={focused ? theme.white : theme.textMuted}
+              color={focused ? theme.text : theme.textMuted}
               size={20}
             />
           ),
@@ -66,7 +62,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="search"
-              color={focused ? theme.white : theme.textMuted}
+              color={focused ? theme.text : theme.textMuted}
               size={20}
             />
           ),

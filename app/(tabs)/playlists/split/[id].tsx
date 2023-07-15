@@ -19,6 +19,8 @@ import { Split, Workout } from "../../../../models/workout";
 import Dictionary from "../../../../models/dictionary";
 import { formatDataSnapshot } from "../../../../utils/utils";
 import { Exercise } from "../../../../models/exercise";
+import { useTheme } from "../../../../context/theme";
+import { FlatListItem } from "../../../../components/themed/FlatListItem";
 
 interface SplitData {
   id: string;
@@ -32,6 +34,7 @@ export default function SplitDetails() {
     workoutId: string;
   };
   const { user } = useAuth();
+  const { theme } = useTheme();
   const router = useRouter();
 
   const [split, setSplit] = useState<Split | null>(null);
@@ -51,7 +54,6 @@ export default function SplitDetails() {
             };
 
             getSplitExercises(data.exercises).then((exercises) => {
-              console.log(exercises);
               split.exercises = exercises;
               setSplit(split);
             });
@@ -81,7 +83,7 @@ export default function SplitDetails() {
             fontFamily: "Manrope_700Bold",
           },
           headerShadowVisible: false,
-          headerStyle: { backgroundColor: Colors["primary"].bg },
+          headerStyle: { backgroundColor: theme.background[300] },
           headerTitle: `${split ? "Split " + split.title : ""}`,
         }}
       />
@@ -94,36 +96,11 @@ export default function SplitDetails() {
               data={split.exercises}
               renderItem={({ item, index }) => (
                 <>
-                  <Pressable
-                    key={index}
-                    // onPress={() => router.push(`/split/${item.id}`)}
+                  <FlatListItem
+                    item={item}
+                    // onPress={() => router.push(`/exercises/${item.id}`)}
                     // onLongPress={() => showDetails(item.id)}
-                    borderColor="muted.200"
-                    borderBottomWidth="1"
-                    pl={["0", "5"]}
-                    pr={["0", "5"]}
-                    py="5"
-                  >
-                    {({ isPressed }) => {
-                      return (
-                        <HStack
-                          style={{
-                            transform: [
-                              {
-                                scale: isPressed ? 0.99 : 1,
-                              },
-                            ],
-                          }}
-                          space={[2, 3]}
-                          justifyContent="space-between"
-                        >
-                          <VStack>
-                            <Text>{item.name}</Text>
-                          </VStack>
-                        </HStack>
-                      );
-                    }}
-                  </Pressable>
+                  />
                 </>
               )}
               keyExtractor={(item) => item.id}

@@ -15,10 +15,17 @@ import { useAuth } from "../../../context/auth";
 import { formatDataSnapshot } from "../../../utils/utils";
 import { Stack, useRouter } from "expo-router";
 import Dictionary from "../../../models/dictionary";
-import { Workout } from "../../../models/workout";
+import { Split, Workout } from "../../../models/workout";
 import { Text } from "../../../components/themed/Text";
 import { FlatListItem } from "../../../components/themed/FlatListItem";
 import { useTheme } from "../../../context/theme";
+import { Button } from "../../../components/themed/Button";
+
+interface WorkoutData {
+  id: string;
+  name: string;
+  splits: Dictionary<Split>;
+}
 
 export default function Playlists() {
   const { user } = useAuth();
@@ -60,6 +67,40 @@ export default function Playlists() {
     onOpen();
   };
 
+  const disableCurrentActiveWorkout = async () => {
+    const refPath = `/users/${user.uid}/workouts/`;
+    const snapshot = await db()
+      .ref(refPath)
+      .orderByChild("active")
+      .equalTo(true)
+      .limitToFirst(1)
+      .once("value");
+
+    // const document: any = Object.values(snapshot.val())[0];
+    // const activeWorkout: Workout = {
+    //   id: document.id,
+    //   active: document.active,
+    //   name: document.name,
+    //   splits:
+
+    // }
+    // console.log(document.id);
+  };
+
+  const setActiveWorkout = (workout: Workout) => {
+    disableCurrentActiveWorkout().then(() => {
+      const refPath = `/users/${user.uid}/workouts/${workout.id}`;
+      db()
+        .ref(refPath)
+        .remove()
+        .then(() =>
+          db()
+            .ref(refPath)
+            .update({ ...workout, active: true })
+        );
+    });
+  };
+
   return (
     <View py={5} px={6}>
       {playlists.length > 0 ? (
@@ -68,11 +109,18 @@ export default function Playlists() {
           // mt={4}
           data={playlists}
           renderItem={({ item }) => (
-            <FlatListItem
-              item={item}
-              onPress={() => router.push(`/playlists/${item.id}`)}
-              onLongPress={() => showDetails(item.id)}
-            />
+            <>
+              <FlatListItem
+                item={item}
+                onPress={() => router.push(`/playlists/${item.id}`)}
+                onLongPress={() => showDetails(item.id)}
+              />
+              <Button
+                onPress={() => setActiveWorkout(item)}
+                title="Active"
+                variant={"solid"}
+              />
+            </>
           )}
           keyExtractor={(item) => item.id}
         />

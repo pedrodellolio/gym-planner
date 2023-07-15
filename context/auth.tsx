@@ -35,7 +35,6 @@ function useProtectedRoute(user: FirebaseAuthTypes.User | null) {
   const navigationState = useRootNavigationState();
 
   useEffect(() => {
-    console.log("oi");
     if (!navigationState?.key) return;
     const inAuthGroup = segments[0] === "(auth)";
 

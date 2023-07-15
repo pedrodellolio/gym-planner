@@ -1,4 +1,4 @@
-import { Button, FormControl, HStack, Input, VStack } from "native-base";
+import { FormControl, HStack, VStack } from "native-base";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,6 +6,9 @@ import { useRouter } from "expo-router";
 import db from "@react-native-firebase/database";
 import { useAuth } from "../../../context/auth";
 import Slider from "../../../components/Slider";
+import { Input } from "../../../components/themed/Input";
+import { Button } from "../../../components/themed/Button";
+import { useTheme } from "../../../context/theme";
 
 interface FormData {
   name: string;
@@ -19,6 +22,7 @@ interface FormData {
 export default function CreateExercise() {
   const router = useRouter();
   const { user } = useAuth();
+  const { theme } = useTheme();
 
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -48,13 +52,7 @@ export default function CreateExercise() {
     <SafeAreaView>
       <VStack px={5} space={3}>
         <FormControl isRequired>
-          <FormControl.Label
-            _text={{
-              color: "#212121",
-            }}
-          >
-            Exercise name
-          </FormControl.Label>
+          <FormControl.Label>Exercise name</FormControl.Label>
           <Input
             placeholder="My new exercise"
             onChangeText={(value) => setFormData({ ...formData, name: value })}
@@ -80,8 +78,8 @@ export default function CreateExercise() {
             Reps
           </FormControl.Label>
           <Slider
+            color={theme.tint[500]}
             defaultValue={10}
-            colorScheme="purple"
             step={1}
             minValue={0}
             maxValue={20}
@@ -104,8 +102,8 @@ export default function CreateExercise() {
             Sets
           </FormControl.Label>
           <Slider
+            color={theme.tint[500]}
             defaultValue={3}
-            colorScheme="purple"
             step={1}
             minValue={0}
             maxValue={5}
@@ -203,25 +201,23 @@ export default function CreateExercise() {
         </HStack>
         <VStack justifyContent={"center"} mt={5} w={"full"} space={3}>
           <Button
-            variant={"primary"}
+            title="Create exercise"
+            variant={"solid"}
             backgroundColor={"gray.300"}
             w={"100%"}
             py={4}
             rounded={"lg"}
             onPress={createExercise}
             isLoading={isLoading}
-          >
-            Create exercise
-          </Button>
+          />
           <Button
+            title="Cancel"
             variant={"outline"}
             w={"100%"}
             py={4}
             rounded={"lg"}
             onPress={router.back}
-          >
-            Cancel
-          </Button>
+          />
         </VStack>
       </VStack>
     </SafeAreaView>

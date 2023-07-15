@@ -1,190 +1,174 @@
 import {
-  View,
-  VStack,
-  Box,
   Pressable,
-  Flex,
-  IconButton,
-  ScrollView,
   HStack,
+  VStack,
+  ScrollView,
+  FlatList,
   Divider,
 } from "native-base";
-import { StyleSheet } from "react-native";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import FontAwesome5 from "@expo/vector-icons/build/FontAwesome5";
-import CurrentWorkoutBanner from "../../components/CurrentWorkoutBanner";
-import Colors from "../../constants/Colors";
 import { Stack, useRouter } from "expo-router";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useAuth } from "../../context/auth";
+import { FontAwesome } from "@expo/vector-icons";
 import UserIcon from "../../components/UserIcon";
-import { useColorScheme } from "react-native";
-import { Text } from "../../components/themed/Text";
-import { Heading } from "../../components/themed/Heading";
 import { useTheme } from "../../context/theme";
+import { Text } from "../../components/themed/Text";
+import { useState, useEffect } from "react";
+import { ButtonTabs } from "../../components/themed/ButtonTabs";
+import { WorkoutBanner } from "../../components/themed/WorkoutBanner";
+import { useAuth } from "../../context/auth";
+import db, { FirebaseDatabaseTypes } from "@react-native-firebase/database";
+import { Split, Workout } from "../../models/workout";
+import { documentToObject } from "../../utils/utils";
+import { Exercise } from "../../models/exercise";
+
+interface ExerciseData extends Exercise {
+  split: any;
+}
 
 export default function Home() {
-  const { user, signOut } = useAuth();
   const router = useRouter();
-  const { theme } = useTheme();
+  const { user } = useAuth();
+  const { theme, colorScheme } = useTheme();
+
+  const [selectedSplit, setSelectedSplit] = useState("A");
+  const [activeWorkout, setActiveWorkout] = useState<Workout | null>();
+  const [exercises, setExercises] = useState<ExerciseData[]>([]);
+
+  useEffect(() => {
+    const refPath = `/users/${user.uid}/workouts/`;
+    db()
+      .ref(refPath)
+      .orderByChild("active")
+      .equalTo(true)
+      .limitToFirst(1)
+      .on("value", onActiveWorkoutChange);
+
+    return () => db().ref(refPath).off("value", onActiveWorkoutChange);
+  }, []);
+
+  const onActiveWorkoutChange = async (
+    snapshot: FirebaseDatabaseTypes.DataSnapshot
+  ) => {
+    const workout = organizeWorkout(snapshot);
+    setActiveWorkout(workout);
+
+    const exercises = await fetchWorkoutExercises(workout.splits);
+    setExercises(exercises);
+  };
+
+  const organizeWorkout = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+    //create workout/splits objects from workout/splits document
+    const workout: Workout = documentToObject<Workout>(snapshot.val());
+    let splits = Object.entries(workout.splits).map((split) => {
+      const key = split[0];
+      const value = split[1];
+      return documentToObject<Split>({ [key]: value });
+    });
+    return { ...workout, splits: splits };
+  };
+
+  const fetchWorkoutExercises = async (splits: Split[]) => {
+    //fetch exercises from split.exercises (list of ids)
+    const exercises: ExerciseData[] = [];
+    for (const split of splits) {
+      for (const eId of split.exercises) {
+        const snapshot = await db()
+          .ref(`/users/${user.uid}/exercises/${eId}`)
+          .once("value");
+
+        const exercise = snapshot.val();
+        exercises.push({ ...exercise, split: split.title });
+      }
+    }
+
+    return exercises;
+  };
 
   const options = {
     headerShadowVisible: false,
-    headerTitleStyle: {
-      fontFamily: "Manrope_700Bold",
-      fontSize: 18,
-    },
+    title: "Your Training",
     headerStyle: {
-      backgroundColor: theme.background[300],
+      backgroundColor: theme.background[500],
     },
   };
 
   return (
-    <View marginTop={10} w={"100%"}>
+    <ScrollView
+      stickyHeaderIndices={[2]}
+      alwaysBounceVertical={false}
+      overScrollMode="never"
+      bounces={false}
+    >
       <Stack.Screen
         options={{
           ...options,
-          contentStyle: { backgroundColor: theme.tint },
+          headerTitleAlign: "center",
           headerLeft: () => (
             <Pressable onPress={() => router.push("/profile")}>
               <UserIcon
                 size={"xs"}
-                rounded={"lg"}
+                rounded={"xl"}
                 marginLeft={5}
                 marginRight={1}
               />
             </Pressable>
           ),
-          headerRight: () => (
-            <IconButton
-              mr={3}
-              size={"lg"}
-              onPress={signOut}
-              _icon={{
-                as: MaterialIcons,
-                name: "subdirectory-arrow-right",
-                color: theme.text,
-              }}
-            />
-          ),
         }}
       />
-      <VStack mt={5} mb={10} space={2} px={5}>
-        {/* <Text style={{ color: theme.textMuted, fontSize: 18 }}>
-          Welcome back,
-        </Text>
-        <Heading style={[styles.text, { fontSize: 30 }]}>
-          {"Pedro Dell'Olio"}
-        </Heading> */}
-        <Text style={{ fontSize: 28, fontWeight: "600" }}>Workout</Text>
-        <Text style={{ fontSize: 28, fontWeight: "600" }}>In Progress</Text>
+      {activeWorkout && exercises && (
+        <>
+          <WorkoutBanner
+            data={activeWorkout}
+            exercisesCount={exercises.length}
+          />
 
-        <VStack marginTop={5}>
-          <CurrentWorkoutBanner />
-        </VStack>
-      </VStack>
+          <ButtonTabs
+            selectedValue={selectedSplit}
+            setSelectedValue={setSelectedSplit}
+            data={activeWorkout}
+          />
 
-      <Box bgColor={theme.background[500]} h={"100%"} roundedTop="3xl">
-        <Box mt={8} mx={5}>
-          <Text style={{ fontSize: 18, color: theme.textMuted }}>
-            Quick Access
-          </Text>
-        </Box>
-        <Box>
-          <ScrollView
-            mt={5}
-            ml={5}
-            horizontal={true}
-            p={0}
-            showsHorizontalScrollIndicator={false}
-          >
-            <HStack space={3}>
-              <Pressable
-                display={"flex"}
-                justifyContent={"flex-end"}
-                bgColor={theme.background[400]}
-                w={"140px"}
-                rounded={"xl"}
-                p={6}
-              >
-                <VStack space={3}>
-                  <FontAwesome5
-                    name="running"
-                    size={30}
-                    color={theme.tint[500]}
-                  />
+          <FlatList
+            data={exercises.filter((e) => e.split === selectedSplit)}
+            renderItem={({ item }) => (
+              <>
+                <VStack mx={8} space={2} my={6}>
                   <Text
-                    style={{
-                      fontSize: 18,
-                      color: theme.text,
-                      fontWeight: "bold",
-                    }}
+                    fontFamily={"Figtree_600SemiBold"}
+                    color={theme.tint[400]}
+                    fontSize={18}
                   >
-                    Change Workout
+                    {item.name}
                   </Text>
+                  <HStack space={8}>
+                    <HStack space={2} alignItems="center">
+                      <FontAwesome
+                        name="repeat"
+                        size={16}
+                        color={theme.textMuted[500]}
+                      />
+                      <Text color={theme.textMuted[500]} fontSize={16}>
+                        {item.sets + "x" + item.reps}
+                      </Text>
+                    </HStack>
+                    <HStack space={2} alignItems="center">
+                      <FontAwesome
+                        name="repeat"
+                        size={16}
+                        color={theme.textMuted[500]}
+                      />
+                      <Text color={theme.textMuted[500]} fontSize={16}>
+                        {item.restIntervalInSeconds + "s"}
+                      </Text>
+                    </HStack>
+                  </HStack>
                 </VStack>
-              </Pressable>
-              <Pressable
-                display={"flex"}
-                justifyContent={"flex-end"}
-                bgColor={theme.background[400]}
-                w={"140px"}
-                rounded={"xl"}
-                p={6}
-              >
-                <VStack space={3}>
-                  <FontAwesome5
-                    name="dumbbell"
-                    size={30}
-                    color={theme.tint[500]}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: theme.text,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Add Exercise
-                  </Text>
-                </VStack>
-              </Pressable>
-              <Pressable
-                display={"flex"}
-                justifyContent={"flex-end"}
-                bgColor={theme.background[400]}
-                w={"140px"}
-                rounded={"xl"}
-                p={6}
-              >
-                <VStack space={3}>
-                  <FontAwesome5
-                    name="dumbbell"
-                    size={30}
-                    color={theme.tint[500]}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: theme.text,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Add Exercise
-                  </Text>
-                </VStack>
-              </Pressable>
-            </HStack>
-          </ScrollView>
-        </Box>
-      </Box>
-    </View>
+                <Divider bgColor={theme.border[400]} />
+              </>
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </>
+      )}
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-});

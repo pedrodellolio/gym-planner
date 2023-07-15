@@ -1,17 +1,15 @@
-import { TextProps } from "react-native";
-import { Text as NativeBaseText } from "native-base";
+import { ITextProps, Text as NativeBaseText } from "native-base";
 import { useTheme } from "../../context/theme";
 
-export function Text(props: TextProps) {
+export function Text(props: ITextProps) {
   const { style, ...otherProps } = props;
   const { theme } = useTheme();
 
   return (
     <NativeBaseText
-      style={[
-        { color: theme.text, fontSize: 16, lineHeight: 27, fontWeight: "400" },
-        style,
-      ]}
+      fontFamily={"Figtree_400Regular"}
+      fontSize={20}
+      color={theme.text}
       {...otherProps}
     />
   );

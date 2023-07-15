@@ -1,17 +1,20 @@
 import { Stack } from "expo-router";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { AuthProvider } from "../context/auth";
 import { NativeBaseProvider, StatusBar } from "native-base";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import {
-  useFonts,
-  Manrope_500Medium,
-  Manrope_600SemiBold,
-  Manrope_700Bold,
-} from "@expo-google-fonts/manrope";
-import Colors from "../constants/Colors";
 import { Theme, ThemeProvider as NavProvider } from "@react-navigation/native";
 import { ThemeProvider, useTheme } from "../context/theme";
+import * as SplashScreen from "expo-splash-screen";
+// import { useFonts } from "expo-font";
+import {
+  useFonts,
+  Figtree_300Light,
+  Figtree_400Regular,
+  Figtree_500Medium,
+  Figtree_600SemiBold,
+  Figtree_700Bold,
+} from "@expo-google-fonts/figtree";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -22,18 +25,42 @@ export const unstable_settings = {
   initialRouteName: "(tabs)",
 };
 
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    // SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    Manrope_500Medium,
-    Manrope_600SemiBold,
-    Manrope_700Bold,
+    // "Metropolis-Bold": require("../assets/fonts/Metropolis-Bold.ttf"),
+    // "Metropolis-SemiBold": require("../assets/fonts/Metropolis-SemiBold.ttf"),
+    // "Metropolis-Medium": require("../assets/fonts/Metropolis-Medium.ttf"),
+    // "Metropolis-Regular": require("../assets/fonts/Metropolis-Regular.ttf"),
+    // "Metropolis-Light": require("../assets/fonts/Metropolis-Light.ttf"),
+    Figtree_300Light,
+    Figtree_400Regular,
+    Figtree_500Medium,
+    Figtree_600SemiBold,
+    Figtree_700Bold,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (loaded) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [loaded]);
+
+  // if (!loaded) {
+  //   return null;
+  // }
+
+  // return (
+  //   <ThemeProvider>
+  //     <BaseLayout />
+  //   </ThemeProvider>
+  // );
 
   return (
     <>
@@ -87,7 +114,7 @@ function BaseLayout() {
     dark: true,
     colors: {
       primary: theme.tint[500],
-      background: theme.background[300],
+      background: theme.background[500],
       border: theme.border,
       text: theme.text,
       card: "#323232",

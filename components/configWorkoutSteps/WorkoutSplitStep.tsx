@@ -42,8 +42,6 @@ export default function WorkoutSplitStep(props: Props) {
     onOpen();
   };
 
-  console.log(splitId);
-
   const saveSplitInfo = () => {
     try {
       for (const split of props.formData) {

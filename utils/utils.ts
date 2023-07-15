@@ -1,3 +1,4 @@
+import { FirebaseDatabaseTypes } from "@react-native-firebase/database";
 import Dictionary from "../models/dictionary";
 
 interface TransformedObject {
@@ -23,7 +24,6 @@ export function formatDataSnapshot<T>(
   return transformedArray;
 }
 
-
 export function rgbOpacity(rgbString: string, opacity: number) {
   // Removendo os espaços em branco em excesso e dividindo os valores da string RGB
   const rgbValues = rgbString.replace(/\s/g, "").split(",");
@@ -40,4 +40,19 @@ export function rgbOpacity(rgbString: string, opacity: number) {
   const rgbOpacityString = `rgba(${r},${g},${b},${validOpacity})`;
 
   return rgbOpacityString;
+}
+
+export function documentToObject<T>(document: any): T {
+  const documentKey = Object.keys(document)[0];
+  const documentData = document[documentKey];
+
+  const mappedObject: any = {
+    id: documentKey,
+  };
+
+  Object.entries(documentData).forEach(([key, value]) => {
+    mappedObject[key] = value;
+  });
+
+  return mappedObject as T;
 }

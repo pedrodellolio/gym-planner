@@ -4,12 +4,13 @@ export interface Workout {
   id: string;
   name: string;
   splits: Split[];
+  active: boolean;
 }
 
 export interface Split {
   id: string;
   title: string;
-  exercises: Exercise[]
+  exercises: string[];
 }
 
 export const SPLIT_TYPES = [

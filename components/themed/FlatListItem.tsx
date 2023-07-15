@@ -11,13 +11,13 @@ type Props = {
 };
 
 export function FlatListItem(props: Props) {
-  const { theme } = useTheme();
+  const { theme, colorScheme } = useTheme();
   return (
     <Pressable
       key={props.item.id}
       onPress={props.onPress}
       onLongPress={props.onLongPress}
-      borderColor={theme.background[400]}
+      borderColor={colorScheme === "dark" ? theme.background[400] : theme.background[200]}
       borderBottomWidth="1"
       pl={["0", "5"]}
       pr={["0", "5"]}

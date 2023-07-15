@@ -40,9 +40,13 @@ export default function PlaylistDetails() {
       .then((snapshot) => {
         const data: WorkoutData = snapshot.val();
         if (data) {
-          console.log(data);
           const dictionary: Dictionary<Split> = data.splits;
-          let workout: Workout = { id: data.id, name: data.name, splits: [] };
+          let workout: Workout = {
+            id: data.id,
+            name: data.name,
+            splits: [],
+            active: false,
+          };
           if (dictionary) {
             const splits = formatDataSnapshot(dictionary) as Split[];
             workout.splits = splits;

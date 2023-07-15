@@ -1,4 +1,4 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { FirebaseDatabaseTypes } from "@react-native-firebase/database";
 import {
   Actionsheet,
@@ -10,8 +10,7 @@ import {
   HStack,
   Icon,
   IconButton,
-  Input,
-  Text,
+  Pressable,
 } from "native-base";
 import { useState } from "react";
 import { Exercise } from "../models/exercise";
@@ -22,6 +21,8 @@ import { useEffect } from "react";
 import db from "@react-native-firebase/database";
 import { SplitData } from "../app/(tabs)/playlists/settingWorkout";
 import { useTheme } from "../context/theme";
+import { Text } from "./themed/Text";
+import { Input } from "./themed/Input";
 
 interface Props {
   splitId: number;
@@ -111,14 +112,11 @@ export default function SelectExercises(props: Props) {
         <Actionsheet.Content bgColor={theme.background[500]}>
           <Box w="100%" h={"full"}>
             <Box h={"100%"} px={4}>
-              <Text fontSize="20" color="gray.500">
-                Exercises
-              </Text>
+              <Text>Exercises</Text>
               <HStack alignItems="center">
                 <Input
                   placeholder="Search Exercises"
-                  width={"90%"}
-                  borderRadius="4"
+                  // width={"90%"}
                   py="3"
                   px="1"
                   mt={2}
@@ -132,29 +130,21 @@ export default function SelectExercises(props: Props) {
                       as={<MaterialIcons name="search" />}
                     />
                   }
-                  InputRightElement={
-                    <Icon
-                      m="2"
-                      mr="3"
-                      size="6"
-                      color="gray.400"
-                      as={<MaterialIcons name="mic" />}
-                    />
-                  }
                 />
-                <IconButton
+                {/* <IconButton
                   icon={<Ionicons name="search" color={"#828282"} size={25} />}
-                />
+                /> */}
               </HStack>
 
               <FlatList
                 mt={3}
                 data={exercises}
                 renderItem={({ item }) => (
-                  <Box
+                  <Pressable
+                    alignItems={"center"}
                     key={item.id}
                     borderBottomWidth="1"
-                    borderColor="muted.200"
+                    borderColor={theme.background[400]}
                     pl={["0", "4"]}
                     pr={["0", "5"]}
                     py="4"
@@ -164,11 +154,20 @@ export default function SelectExercises(props: Props) {
                         updateSelectedExercises(selected, item.id)
                       }
                       value={item.id}
-                      isChecked={selectedExercises.includes(item.id)}
+                      color={theme.text}
                     >
                       {item.name}
                     </Checkbox>
-
+                    {/* <MaterialIcons
+                      name={
+                        selectedExercises.includes(item.id)
+                          ? "check-box"
+                          : "check-box-outline-blank"
+                      }
+                      size={24}
+                      color={theme.tint[500]}
+                    />
+                    <Text></Text> */}
                     {/* <Checkbox.Group
                       colorScheme="green"
                       accessibilityLabel="pick an item"
@@ -184,7 +183,6 @@ export default function SelectExercises(props: Props) {
                     >
                       <Checkbox value={item.id}>{item.name}</Checkbox>
                     </Checkbox.Group> */}
-
                     {/* <Checkbox.Group
                       onChange={setSelectedExercises}
                       value={selectedExercises}
@@ -192,7 +190,7 @@ export default function SelectExercises(props: Props) {
                     >
                       <Checkbox value={item.id}>{item.name}</Checkbox>
                     </Checkbox.Group> */}
-                  </Box>
+                  </Pressable>
                 )}
                 keyExtractor={(item, index) => {
                   return String(index);
