@@ -3,45 +3,17 @@ import { Stack, useRouter } from "expo-router";
 import { HStack, IconButton } from "native-base";
 import { useTheme } from "../../../context/theme";
 
-function HeaderRight({ theme }) {
-  const router = useRouter();
-
-  return (
-    <HStack>
-      <IconButton
-        size={"lg"}
-        onPress={() => router.push("/playlists/searchPlaylists")}
-        _icon={{
-          as: MaterialIcons,
-          name: "search",
-          color: theme.text,
-        }}
-      />
-      <IconButton
-        size="lg"
-        onPress={() => router.push("/playlists/create")}
-        mt={1}
-        _icon={{
-          as: MaterialIcons,
-          name: "playlist-add",
-          color: theme.text,
-        }}
-      />
-    </HStack>
-  );
-}
-
 export default function PlaylistsLayout() {
   const { theme } = useTheme();
+  const router = useRouter();
 
   const options = {
     headerShadowVisible: false,
     headerTitleStyle: {
-      fontFamily: "Manrope_700Bold",
-      fontSize: 18
+      fontFamily: "Figtree_700Bold",
     },
     headerStyle: {
-      backgroundColor: theme.background[300],
+      backgroundColor: theme.background[500],
     },
   };
 
@@ -52,7 +24,30 @@ export default function PlaylistsLayout() {
         options={{
           ...options,
           headerTitle: "Your Workouts",
-          headerRight: () => <HeaderRight theme={theme} />,
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <IconButton
+              size={"lg"}
+              onPress={() => router.push("/exercises/searchPlaylists")}
+              _icon={{
+                as: MaterialIcons,
+                name: "search",
+                color: theme.text,
+              }}
+            />
+          ),
+          headerRight: () => (
+            <IconButton
+              size="lg"
+              onPress={() => router.push("/playlists/create")}
+              mt={1}
+              _icon={{
+                as: MaterialIcons,
+                name: "playlist-add",
+                color: theme.text,
+              }}
+            />
+          ),
         }}
       />
       <Stack.Screen

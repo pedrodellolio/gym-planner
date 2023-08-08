@@ -67,7 +67,7 @@ export default function WorkoutSplitStep(props: Props) {
           {props.formData.map((split) => {
             return (
               <VStack key={split.id} space={3}>
-                <Box bgColor={theme.background[500]} p={3}>
+                <Box bgColor={theme.background[400]} p={3}>
                   <Text>Split {SPLIT_ORDER[split.id]}</Text>
                 </Box>
                 <FlatList
@@ -81,6 +81,8 @@ export default function WorkoutSplitStep(props: Props) {
                         // onLongPress={() => showDetails(item.id)}
                         px={5}
                         py={3}
+                        borderBottomWidth={1}
+                        borderColor={theme.background[400]}
                       >
                         {({ isPressed }) => {
                           return (
@@ -96,13 +98,12 @@ export default function WorkoutSplitStep(props: Props) {
                               justifyContent="space-between"
                             >
                               <VStack>
-                                <Text>{item.name}</Text>
+                                <Text fontSize={16}>{item.name}</Text>
                               </VStack>
                             </HStack>
                           );
                         }}
                       </Pressable>
-                      <Divider />
                     </>
                   )}
                   keyExtractor={(item) => item.id}
@@ -122,6 +123,7 @@ export default function WorkoutSplitStep(props: Props) {
           position="relative"
           bottom={0}
           px={5}
+          mt={10}
           w="full"
           justifyContent={"space-between"}
         >

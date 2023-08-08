@@ -117,6 +117,8 @@ export default function SelectExercises(props: Props) {
                 <Input
                   placeholder="Search Exercises"
                   // width={"90%"}
+                  borderColor={theme.border[500]}
+                  focusOutlineColor={theme.tint[500]}
                   py="3"
                   px="1"
                   mt={2}
@@ -131,9 +133,6 @@ export default function SelectExercises(props: Props) {
                     />
                   }
                 />
-                {/* <IconButton
-                  icon={<Ionicons name="search" color={"#828282"} size={25} />}
-                /> */}
               </HStack>
 
               <FlatList
@@ -141,7 +140,6 @@ export default function SelectExercises(props: Props) {
                 data={exercises}
                 renderItem={({ item }) => (
                   <Pressable
-                    alignItems={"center"}
                     key={item.id}
                     borderBottomWidth="1"
                     borderColor={theme.background[400]}
@@ -156,7 +154,9 @@ export default function SelectExercises(props: Props) {
                       value={item.id}
                       color={theme.text}
                     >
-                      {item.name}
+                      <Text pl={2} color={theme.text} fontSize={16}>
+                        {item.name}
+                      </Text>
                     </Checkbox>
                     {/* <MaterialIcons
                       name={
@@ -197,7 +197,7 @@ export default function SelectExercises(props: Props) {
                 }}
               />
               {selectedExercises.length > 0 && (
-                <Box bgColor={"#fafafa"} p={4} mb={10} w="100%">
+                <Box bgColor={theme.background[500]} p={4} mb={10} w="100%">
                   <Button px={4} onPress={updateFormData}>
                     Add
                   </Button>

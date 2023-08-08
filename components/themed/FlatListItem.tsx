@@ -17,7 +17,7 @@ export function FlatListItem(props: Props) {
       key={props.item.id}
       onPress={props.onPress}
       onLongPress={props.onLongPress}
-      borderColor={colorScheme === "dark" ? theme.background[400] : theme.background[200]}
+      borderColor={colorScheme === "dark" ? theme.border[400] : theme.border[400]}
       borderBottomWidth="1"
       pl={["0", "5"]}
       pr={["0", "5"]}
@@ -37,7 +37,7 @@ export function FlatListItem(props: Props) {
             justifyContent="space-between"
           >
             <HStack>
-              <Text style={{ fontWeight: "500" }}>
+              <Text fontSize={16} fontWeight={500}>
                 {props.item.name ?? props.item[0]}
               </Text>
             </HStack>

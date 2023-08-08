@@ -63,18 +63,19 @@ export default function PlaylistDetails() {
           <Stack.Screen
             options={{
               headerTitleStyle: {
-                fontFamily: "Manrope_700Bold",
+                fontFamily: "Figtree_700Bold",
               },
+              headerTitleAlign: "center",
               headerShadowVisible: false,
               headerStyle: {
-                backgroundColor: theme.background[300],
+                backgroundColor: theme.background[500],
               },
               headerTitle: `${playlist.name}`,
             }}
           />
           {playlist.splits.length === 0 ? (
             <Flex justifyContent="center" alignItems="center" h="full">
-              <Box w={"64"}>
+              <Box w={"72"}>
                 <Text style={{ marginBottom: 2, textAlign: "center" }}>
                   Let's start setting your workout
                 </Text>
@@ -108,7 +109,7 @@ export default function PlaylistDetails() {
                         params: { workoutId: id },
                       })
                     }
-                    borderColor="muted.200"
+                    borderColor={theme.border[400]}
                     borderBottomWidth="1"
                     pl={["0", "5"]}
                     pr={["0", "5"]}
@@ -128,7 +129,7 @@ export default function PlaylistDetails() {
                           justifyContent="space-between"
                         >
                           <VStack>
-                            <Text>Split {item.title}</Text>
+                            <Text fontSize={16}>Split {item.title}</Text>
                           </VStack>
                         </HStack>
                       );

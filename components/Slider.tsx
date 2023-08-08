@@ -4,7 +4,6 @@ import { Keyboard } from "react-native";
 
 interface Props {
   defaultValue: number;
-  color: string;
   step?: number;
   maxValue: number;
   minValue: number;
@@ -35,7 +34,7 @@ export default function Slider(props: Props) {
         maxValue={props.maxValue}
         minValue={props.minValue}
         defaultValue={props.defaultValue}
-        color={props.color}
+        colorScheme={"blue"}
         onChange={(v) => {
           Keyboard.dismiss();
           const newValue = Math.floor(v);

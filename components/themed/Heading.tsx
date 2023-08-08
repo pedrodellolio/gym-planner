@@ -8,9 +8,9 @@ export function Heading(props: IHeadingProps) {
 
   return (
     <NativeBaseHeading
+      fontSize={26}
       style={{
         color: theme.text,
-        fontSize: 26,
         fontFamily: "Figtree_300Light",
       }}
       {...otherProps}

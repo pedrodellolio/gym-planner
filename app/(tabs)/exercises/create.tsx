@@ -52,13 +52,21 @@ export default function CreateExercise() {
     <SafeAreaView>
       <VStack px={5} space={3}>
         <FormControl isRequired>
-          <FormControl.Label>Exercise name</FormControl.Label>
+          <FormControl.Label
+            _text={{
+              color: theme.text,
+            }}
+          >
+            Exercise name
+          </FormControl.Label>
           <Input
             placeholder="My new exercise"
             onChangeText={(value) => setFormData({ ...formData, name: value })}
             defaultValue={formData.name}
             fontSize={14}
+            borderColor={theme.border[500]}
             mt={2}
+            focusOutlineColor={theme.tint[500]}
           />
           <FormControl.ErrorMessage
             _text={{
@@ -72,13 +80,12 @@ export default function CreateExercise() {
         <FormControl isRequired>
           <FormControl.Label
             _text={{
-              color: "#212121",
+              color: theme.text,
             }}
           >
             Reps
           </FormControl.Label>
           <Slider
-            color={theme.tint[500]}
             defaultValue={10}
             step={1}
             minValue={0}
@@ -96,13 +103,12 @@ export default function CreateExercise() {
         <FormControl isRequired>
           <FormControl.Label
             _text={{
-              color: "#212121",
+              color: theme.text,
             }}
           >
             Sets
           </FormControl.Label>
           <Slider
-            color={theme.tint[500]}
             defaultValue={3}
             step={1}
             minValue={0}
@@ -122,14 +128,13 @@ export default function CreateExercise() {
         <FormControl isRequired>
           <FormControl.Label
             _text={{
-              color: "#212121",
+              color: theme.text,
             }}
           >
             Interval
           </FormControl.Label>
           <Slider
             defaultValue={30}
-            colorScheme="purple"
             step={15}
             minValue={0}
             maxValue={60}
@@ -151,7 +156,7 @@ export default function CreateExercise() {
           <FormControl w={"45%"}>
             <FormControl.Label
               _text={{
-                color: "#212121",
+                color: theme.text,
               }}
             >
               Weight
@@ -159,6 +164,8 @@ export default function CreateExercise() {
             <Input
               keyboardType="numeric"
               placeholder="20kg"
+              borderColor={theme.border[500]}
+              focusOutlineColor={theme.tint[500]}
               onChangeText={(value) =>
                 setFormData({ ...formData, weight: Number(value) })
               }
@@ -176,7 +183,7 @@ export default function CreateExercise() {
           <FormControl w={"45%"}>
             <FormControl.Label
               _text={{
-                color: "#212121",
+                color: theme.text,
               }}
             >
               Equipment number
@@ -184,6 +191,8 @@ export default function CreateExercise() {
             <Input
               keyboardType="numeric"
               placeholder="00"
+              borderColor={theme.border[500]}
+              focusOutlineColor={theme.tint[500]}
               onChangeText={(value) =>
                 setFormData({ ...formData, equipmentNumber: Number(value) })
               }
@@ -203,7 +212,6 @@ export default function CreateExercise() {
           <Button
             title="Create exercise"
             variant={"solid"}
-            backgroundColor={"gray.300"}
             w={"100%"}
             py={4}
             rounded={"lg"}

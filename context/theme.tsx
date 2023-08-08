@@ -21,7 +21,7 @@ export function useTheme() {
 export function ThemeProvider({ children }: Props) {
   const colorScheme = useColorScheme();
   // const theme = Colors[colorScheme === "dark" ? "dark" : "light"];
-  const theme = Colors["dark"];
+  const theme = Colors["light"];
   return (
     <ThemeContext.Provider value={{ theme, colorScheme }}>
       {children}

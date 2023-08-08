@@ -17,6 +17,7 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: theme.background[500],
           height: 55,
+          borderColor: theme.border[500],
         },
         tabBarShowLabel: true,
       }}
@@ -30,7 +31,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="home"
-              color={focused ? theme.text : theme.textMuted}
+              color={focused ? theme.text : theme.textMuted[400]}
               size={20}
             />
           ),
@@ -46,7 +47,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               name="dumbbell"
-              color={focused ? theme.text : theme.textMuted}
+              color={focused ? theme.text : theme.textMuted[400]}
               size={20}
             />
           ),
@@ -62,7 +63,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="search"
-              color={focused ? theme.text : theme.textMuted}
+              color={focused ? theme.text : theme.textMuted[400]}
               size={20}
             />
           ),

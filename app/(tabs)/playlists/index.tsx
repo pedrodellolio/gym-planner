@@ -115,11 +115,11 @@ export default function Playlists() {
                 onPress={() => router.push(`/playlists/${item.id}`)}
                 onLongPress={() => showDetails(item.id)}
               />
-              <Button
+              {/* <Button
                 onPress={() => setActiveWorkout(item)}
                 title="Active"
                 variant={"solid"}
-              />
+              /> */}
             </>
           )}
           keyExtractor={(item) => item.id}

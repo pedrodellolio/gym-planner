@@ -22,12 +22,6 @@ import { Exercise } from "../../../../models/exercise";
 import { useTheme } from "../../../../context/theme";
 import { FlatListItem } from "../../../../components/themed/FlatListItem";
 
-interface SplitData {
-  id: string;
-  title: string;
-  exercises: string[];
-}
-
 export default function SplitDetails() {
   const { id, workoutId } = useGlobalSearchParams() as {
     id: string;
@@ -37,7 +31,8 @@ export default function SplitDetails() {
   const { theme } = useTheme();
   const router = useRouter();
 
-  const [split, setSplit] = useState<Split | null>(null);
+  const [title, setTitle] = useState<string | null>(null);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
 
   useEffect(() => {
     if (id && workoutId) {
@@ -45,17 +40,11 @@ export default function SplitDetails() {
         .ref(`/users/${user.uid}/workouts/${workoutId}/splits/${id}`)
         .once("value")
         .then((snapshot) => {
-          const data: SplitData = snapshot.val();
+          const data = snapshot.val();
           if (data) {
-            let split: Split = {
-              id: data.id,
-              title: data.title,
-              exercises: [],
-            };
-
+            setTitle(data.title);
             getSplitExercises(data.exercises).then((exercises) => {
-              split.exercises = exercises;
-              setSplit(split);
+              setExercises(exercises);
             });
           }
         });
@@ -70,7 +59,7 @@ export default function SplitDetails() {
         .once("value");
 
       const exercise: Exercise = snapshot.val();
-      exercises.push(exercise);
+      exercises.push({ ...exercise, id: eId });
     }
     return exercises;
   };
@@ -80,20 +69,21 @@ export default function SplitDetails() {
       <Stack.Screen
         options={{
           headerTitleStyle: {
-            fontFamily: "Manrope_700Bold",
+            fontFamily: "Figtree_700Bold",
           },
+          headerTitleAlign: "center",
           headerShadowVisible: false,
-          headerStyle: { backgroundColor: theme.background[300] },
-          headerTitle: `${split ? "Split " + split.title : ""}`,
+          headerStyle: { backgroundColor: theme.background[500] },
+          headerTitle: `${title ? "Split " + title : ""}`,
         }}
       />
 
-      {split && (
+      {exercises.length > 0 && (
         <>
-          {split.exercises.length > 0 && (
+          {exercises.length > 0 && (
             <FlatList
               mt={-2}
-              data={split.exercises}
+              data={exercises}
               renderItem={({ item, index }) => (
                 <>
                   <FlatListItem

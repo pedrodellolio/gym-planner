@@ -7,7 +7,7 @@ import {
   Divider,
 } from "native-base";
 import { Stack, useRouter } from "expo-router";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import UserIcon from "../../components/UserIcon";
 import { useTheme } from "../../context/theme";
 import { Text } from "../../components/themed/Text";
@@ -34,15 +34,16 @@ export default function Home() {
   const [exercises, setExercises] = useState<ExerciseData[]>([]);
 
   useEffect(() => {
-    const refPath = `/users/${user.uid}/workouts/`;
-    db()
-      .ref(refPath)
-      .orderByChild("active")
-      .equalTo(true)
-      .limitToFirst(1)
-      .on("value", onActiveWorkoutChange);
-
-    return () => db().ref(refPath).off("value", onActiveWorkoutChange);
+    if (user) {
+      const refPath = `/users/${user.uid}/workouts/`;
+      db()
+        .ref(refPath)
+        .orderByChild("active")
+        .equalTo(true)
+        .limitToFirst(1)
+        .on("value", onActiveWorkoutChange);
+      return () => db().ref(refPath).off("value", onActiveWorkoutChange);
+    }
   }, []);
 
   const onActiveWorkoutChange = async (
@@ -88,6 +89,9 @@ export default function Home() {
     title: "Your Training",
     headerStyle: {
       backgroundColor: theme.background[500],
+    },
+    headerTitleStyle: {
+      fontFamily: "Figtree_700Bold",
     },
   };
 
@@ -151,8 +155,8 @@ export default function Home() {
                       </Text>
                     </HStack>
                     <HStack space={2} alignItems="center">
-                      <FontAwesome
-                        name="repeat"
+                      <MaterialIcons
+                        name="timer"
                         size={16}
                         color={theme.textMuted[500]}
                       />

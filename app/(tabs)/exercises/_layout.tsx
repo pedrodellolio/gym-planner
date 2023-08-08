@@ -34,14 +34,14 @@ function HeaderRight({ theme }) {
 
 export default function ExercisesLayout() {
   const { theme } = useTheme();
+  const router = useRouter();
 
   const options = {
     headerTitleStyle: {
-      fontFamily: "Manrope_700Bold",
-      fontSize: 18
+      fontFamily: "Figtree_700Bold",
     },
     headerStyle: {
-      backgroundColor: theme.background[300],
+      backgroundColor: theme.background[500],
     },
     headerShadowVisible: false,
   };
@@ -53,7 +53,30 @@ export default function ExercisesLayout() {
         options={{
           ...options,
           headerTitle: "Exercises",
-          headerRight: () => <HeaderRight theme={theme} />,
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <IconButton
+              size={"lg"}
+              onPress={() => router.push("/exercises/searchPlaylists")}
+              _icon={{
+                as: MaterialIcons,
+                name: "search",
+                color: theme.text,
+              }}
+            />
+          ),
+          headerRight: () => (
+            <IconButton
+              size="lg"
+              onPress={() => router.push("/exercises/create")}
+              mt={1}
+              _icon={{
+                as: MaterialIcons,
+                name: "playlist-add",
+                color: theme.text,
+              }}
+            />
+          ),
         }}
       />
       <Stack.Screen

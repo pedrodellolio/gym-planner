@@ -17,10 +17,11 @@ import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 import { EnergizerUndrawXml } from "../../components/svg/Xml";
 import { SvgXml } from "react-native-svg";
+import { useTheme } from "../../context/theme";
 
 export default function SignUp() {
   const { signUp } = useAuth();
-
+  const { theme } = useTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -56,7 +57,7 @@ export default function SignUp() {
           <Heading>Register</Heading>
           <FormControl>
             <Input
-              focusOutlineColor={"indigo"}
+              focusOutlineColor={theme.tint[500]}
               InputLeftElement={
                 <FontAwesome5 name="user" size={20} color="#a3a3a3" />
               }
@@ -71,7 +72,7 @@ export default function SignUp() {
           </FormControl>
           <FormControl>
             <Input
-              focusOutlineColor={"indigo"}
+              focusOutlineColor={theme.tint[500]}
               InputLeftElement={
                 <MaterialIcons
                   name="alternate-email"
@@ -90,7 +91,7 @@ export default function SignUp() {
           </FormControl>
           <FormControl>
             <Input
-              focusOutlineColor={"indigo"}
+              focusOutlineColor={theme.tint[500]}
               borderColor="muted.200"
               InputLeftElement={
                 <MaterialIcons name="lock-outline" size={20} color="#a3a3a3" />

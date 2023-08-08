@@ -77,6 +77,8 @@ export default function CreatePlaylist() {
             defaultValue={formData.name}
             placeholder="My new workout"
             color={theme.text}
+            borderColor={theme.border[500]}
+            focusOutlineColor={theme.tint[500]}
           />
           {/* <FormControl.HelperText
             _text={{

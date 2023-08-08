@@ -14,8 +14,8 @@ export function Button(props: IButtonProps & Props) {
     <NativeBaseButton
       rounded={"lg"}
       variant={variant}
+      colorScheme={"blue"}
       bgColor={variant === "solid" ? theme.tint[500] : undefined}
-      colorScheme={"pink"}
       borderColor={theme.tint[500]}
       borderWidth={variant === "solid" ? 0 : 1}
       {...otherProps}

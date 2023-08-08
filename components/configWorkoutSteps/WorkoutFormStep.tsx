@@ -35,7 +35,7 @@ export default function WorkoutFormStep(props: Props) {
   return (
     <View mt={2}>
       <VStack display={"flex"} justifyContent={"center"} space={5}>
-        <Heading style={{ fontSize: 18 }}>
+        <Heading fontSize={22}>
           Choose how your training will be divided
         </Heading>
         <VStack space={3}>
@@ -46,7 +46,7 @@ export default function WorkoutFormStep(props: Props) {
               borderWidth={split.id === props.selectedSplitTypeId ? 2 : 0}
               borderColor={theme.tint[500]}
               onPress={() => props.setSelectedSplitTypeId(split.id)}
-              bgColor={theme.background[200]}
+              bgColor={theme.background[400]}
               p={4}
               display={"flex"}
               flexDirection={"row"}
@@ -54,10 +54,12 @@ export default function WorkoutFormStep(props: Props) {
               alignItems={"center"}
             >
               <Box w={"80%"}>
-                <Text style={{ color: theme.text, fontWeight: "600" }}>
+                <Text fontWeight={500} style={{ color: theme.text }}>
                   {split.title}
                 </Text>
-                <Text style={{ color: theme.text }}>{split.label}</Text>
+                <Text fontSize={16} style={{ color: theme.text }}>
+                  {split.label}
+                </Text>
               </Box>
               <MaterialIcons
                 size={20}
